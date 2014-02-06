@@ -1,5 +1,4 @@
 var data;
-var test;
 
 $('html').click(function(e){
 	   var res = $('#results');
@@ -34,7 +33,7 @@ function launch() {
         c_results = document.getElementById('categories_list'),
         p_results = document.getElementById('products_list'),
         results = document.getElementById('results'),
-        previousValue = searchElement.value; // On fait de même avec la précédente valeur
+        previousValue = searchElement.value; 
         
     var tooltip = document.getElementById('tooltip');
         
@@ -45,7 +44,8 @@ function launch() {
    
     var categories = JSON.parse(categoriesData)["categories"];
   	
-    function getResults(keyword) { // Effectue une requête et récupère les résultats
+  	
+    function getResults(keyword) { 
       
         var keyword = keyword.toLowerCase();
         
@@ -85,7 +85,7 @@ function launch() {
       	c_results.innerHTML = ''; 
 		p_results.innerHTML = '';       	
 
-        if (categories.length) { // On ne modifie les résultats que si on en a obtenu
+        if (categories.length) { 
 
             var responseLen = categories.length;
 
@@ -109,7 +109,7 @@ function launch() {
 
         }
         
-         if (products.length) { // On ne modifie les résultats que si on en a obtenu
+         if (products.length) { 
 
             var responseLen = products.length;
 
@@ -127,7 +127,7 @@ function launch() {
                	}
                 
                 if(products[i]["image_small_url"]){
-                	details += "<img src=\""+products[i]["image_small_url"]+"\" alt=\"image produit\" />" ;
+                	details += '<img src=" '+products[i]["image_small_url"]+ ' " alt="image produit" />' ;
                 }
                 	
                 (function(div,details){
@@ -154,16 +154,11 @@ function launch() {
 
     }
 
-    function chooseResult(result) { // Choisit un des résultats d'une requête et gère tout ce qui y est attaché
-      
-     // searchElement.value = previousValue = result.innerHTML; 
-    
-        searchElement.focus(); // Si le résultat a été choisi par le biais d'un clic, alors le focus est perdu, donc on le réattribue
+    function chooseResult(result) { 
+        searchElement.focus(); 
         $('#tooltip').hide();
         $('#results').slideUp( "slow" );
-
     }
-
 
 
     searchElement.onkeyup = function(e) {
@@ -171,7 +166,6 @@ function launch() {
        e = e || window.event; // On n'oublie pas la compatibilité pour IE
 
        if (searchElement.value != previousValue) { // Si le contenu du champ de recherche a changé
-
             previousValue = searchElement.value;
             getResults(previousValue);
       }
