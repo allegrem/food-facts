@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>INF229 project : Search </title>
+	<link rel="icon" href="/favicon.png">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="search.css">
+	<link rel="stylesheet" href="ring.css">
+</head>
+<body>
+<script src="jquery-1.10.2.min.js"></script>
+<script src="jquery.csv-0.71.min.js"></script>
+
+<div id="search">
+
+    <input type="text" id="searchbox" class="search" autocomplete="off" value=""
+		placeholder="Rechercher une catégorie, ou un produit" />
+		
+	<p id="wait">Chargement des données en cours...</p>
+       
+    <div id="results">
+    	<div id="products_results" class="column"> 
+    		<div class="results_title">Produits</div>	
+    		<div class="nothing_found">Aucun produit trouvé</div>	
+    		<div id="products_list" class="list"></div>				
+    	</div>
+    	<div id="categories_results" class="column"> 	
+    		<div class="results_title">Catégories</div>	
+    		<div class="nothing_found">Aucune catégorie trouvée</div>	
+    		<div id="categories_list" class="list"></div>	
+    	</div>
+    </div>
+    
+    <div id="tooltip"></div>
+
+</div>
+
+<div id="graph" ></div>
+
+<div id="ring" >
+	<ul class="circle">
+		<li><a href="#"> <span> Tous </span></a></li>
+		<li><a href="#"> <span> Max </span></a></li>
+		<li><a href="#"> <span> Moyenne </span></a></li>
+		<li><a href="#"> <span> Min </span></a></li>
+	</ul>
+</div>
+
+<script src="search.js"></script>
+<script src="ring.js"></script>
+<script type="text/javascript"> $(window).load(function(){ launch(); }); </script>
+</body>
+</html>
