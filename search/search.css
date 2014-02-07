@@ -24,6 +24,11 @@ body {
 	background: white url(search.svg) no-repeat 12px 12px;
 }
 
+#search{
+	width: 80%;
+	margin: auto;
+}
+
 #wait{
 	display: block;
 	margin: 50px auto auto;
@@ -75,6 +80,11 @@ body {
 	cursor: pointer;
 }
 
+#searchbox{
+	width: 100%;
+	margin-left: 0;
+}
+
 
 #tooltip{
 	display: none;
@@ -99,7 +109,6 @@ body {
 
 #results {
 	display: none;
-	width: 80%;
 	padding: 0;
 	margin: 5px auto auto;
 	font-family: sans-serif;

@@ -9,10 +9,8 @@ $('html').click(function(e){
        else{
            $('#results').slideUp( "slow" );
        }
-
  });
  
-
 function load_data(){
 	var data_temp = $.ajax({
 		                url: "../data/data.csv",
