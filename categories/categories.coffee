@@ -24,6 +24,7 @@ setMainAttribute = (e) ->
   bounding = e[0][0].getBoundingClientRect()
   e.attr 'x', w/2 - bounding.width/2
     .attr 'y', h/2
+    .attr 'font-size', '50px'
 
 # apply child style with the right angle
 setChildAttribute = (e, angle) ->
@@ -33,28 +34,23 @@ setChildAttribute = (e, angle) ->
 
 # draw a link between the two elements
 drawLink = (e1, e2) ->
-  bounding1 =  e1[0][0].getBoundingClientRect()
-  bounding2 =  e2[0][0].getBoundingClientRect()
   svgContainer.append('line')
-    .attr('x1', bounding1.left)
-    .attr('y1', bounding1.top)
-    .attr('x2', bounding2.left)
-    .attr('y2', bounding2.top)
-
-
-
+    .attr('x1', e1.attr('x'))
+    .attr('y1', e1.attr('y'))
+    .attr('x2', e2.attr('x'))
+    .attr('y2', e2.attr('y'))
+    .attr('style', 'stroke:black; stroke-width: 1px')
 
 
 # main category
 mainCat = appendText 'Sodas'
 setMainAttribute mainCat
 
-children = ['Coca', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry']
+children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry']
 i = 0
 for c in children
   el = appendText c
   setChildAttribute el, i * 6.28 / children.length
-  drawLink el, mainCat
   i++
 
 refresh()
