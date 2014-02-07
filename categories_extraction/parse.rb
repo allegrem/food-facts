@@ -71,10 +71,7 @@ products.each do |p|
     #create links between categories
     p_categories.each do |c|
       p_categories.each do |c2|
-        if c != c2
-          c.link c2
-          c2.link c
-        end
+        c.link c2  if c != c2
       end
     end
   end
