@@ -36,11 +36,28 @@ setChildAttribute = (e, angle) ->
 drawLink = (main, child, weight) ->
   mainBound = main[0][0].getBoundingClientRect()
   childBound = child[0][0].getBoundingClientRect()
+
+  x1 = parseInt(main.attr('x')) + mainBound.width*2
+  y1 = main.attr('y') - mainBound.height
+  x2 = parseInt(child.attr('x')) + childBound.width
+  y2 = child.attr('y') - childBound.height/2
+
+  # if y2 > y1 + 10
+  #   y2 -= childBound.height + 10
+  #   x2 += (childBound.height + 10)*x2 / y2
+  # # else if y2 < y1 - 10
+  # #   y2 += childBound.height + 10
+  # #   # x2 = 
+
+  r1 = y1/x1
+  r2 = y2/x2
+
+
   svgContainer.append('line')
-    .attr 'x1', parseInt(main.attr('x')) + mainBound.width*2
-    .attr 'y1', main.attr('y') - mainBound.height
-    .attr 'x2', parseInt(child.attr('x')) + childBound.width
-    .attr 'y2', child.attr('y') - childBound.height/2
+    .attr 'x1', x1
+    .attr 'y1', y1
+    .attr 'x2', x2
+    .attr 'y2', y2
     .attr 'style', "stroke:black; stroke-width: #{weight}px"
 
 
