@@ -3,7 +3,7 @@
 {"tag": "en:beverages", "nb_prod": "688", "name": "Boissons"},
 {"tag": "en:meals", "nb_prod": "405", "name": "Plats préparés"},
 {"tag": "en:biscuits", "nb_prod": "360", "name": "Biscuits"},
-{"tag": "en:candies", "nb_prod": "333", "name": "Sucreries"},
+{"tag": "en:candies", "nb_prod": "333", "name": "Confiseries"},
 {"tag": "en:desserts", "nb_prod": "316", "name": "Desserts"},
 {"tag": "en:meats", "nb_prod": "309", "name": "Viandes"},
 {"tag": "en:vegetables", "nb_prod": "304", "name": "Légumes"},

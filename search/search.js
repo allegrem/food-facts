@@ -99,7 +99,7 @@ function launch() {
                 (function(i){
 		            div.onclick = function() {
 		            		chooseResult(this);
-				            $('#graph').html('<span class="clickable">' + categories[i]["name"] + '</span>'); 
+				            $('#graph').html('<span class="clickable" tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
 				        };
 				 })(i);
 

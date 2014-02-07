@@ -61,7 +61,6 @@ way to fit your requirements.
 	height: 150px;
 	background: #bbb;
 	position: relative;
-	z-index: 100;
 	-webkit-transition: 0.75s;
 	-moz-transition: 0.75s;
 	-ms-transition: 0.75s;
