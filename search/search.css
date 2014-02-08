@@ -1,5 +1,16 @@
 body {
-    overflow:hidden;
+  /*  overflow:hidden; */
+}
+
+#graph{
+	text-align: right;
+	padding: 20px;
+}
+
+#graph iframe{
+	border: none;
+	width: 850px;
+	height: 540px;
 }
 
 .content{
@@ -91,7 +102,7 @@ body {
 }
 
 
-#tooltip{
+#tip{
 	display: none;
     position: absolute;
     margin-left: 30%;
@@ -103,12 +114,12 @@ body {
     font-family: sans-serif;
 }
 
-#tooltip p{
+#tip p{
 	margin: 0.3em;
 	color: #999;
 }
 
-#tooltip img{
+#tip img{
 	display:block;
 }
 

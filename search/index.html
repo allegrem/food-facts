@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="search.css">
 	<link rel="stylesheet" href="ring.css">
 	<link rel="stylesheet" href="selection.css">
+	<link rel="stylesheet" href="../categories/graph.css">
+	<link rel="stylesheet" href="../heatmap/heatmap.css">
 </head>
 <body>
 <script src="../lib/jquery-1.10.2.min.js"></script>
@@ -33,11 +35,19 @@
 			</div>
 		</div>
 		
-		<div id="tooltip"></div>
+		<div id="tip"></div>
 
 	</div>
 
-	<div id="graph" ></div>
+	<div id="graph" >	
+	</div>
+	
+	<div id="heatmap">
+		<div id="tooltip" class="hidden">
+       	 <p><span id="value"></p>
+		</div>
+		<div id="chart" style='overflow:auto; width:800px; height:750px;'></div>
+	</div>
 </div>
 
 <div id="ring" >
@@ -58,6 +68,11 @@
 <script src="selection.js"></script>
 <script src="search.js"></script>
 <script src="ring.js"></script>
+<script type="text/javascript" src="../categories/d3.v3.js"></script>
+    <script type="text/javascript" src="../categories/coffee-script.js"></script>
+    <script type="text/javascript" src="../categories/underscore.js"></script>
+    <script type="text/coffeescript" src="../categories/categories.coffee"></script>
+     <script type="text/javascript" src="../heatmap/heatmap.js"></script>
 <script type="text/javascript"> $(window).load(function(){ launch(); }); </script>
 </body>
 </html>

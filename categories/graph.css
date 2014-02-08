@@ -1,0 +1,29 @@
+#graph svg{
+ 	border-radius: 3px;
+	border: 1px solid rgb(204, 204, 204);
+ }
+ 
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+}
+
+.node {
+	fill: #ccc;
+	stroke: #fff;
+	stroke-width: 1.5px;
+}
+
+.node.hover,
+.node:hover,
+.node:hover text{
+	fill: #f00;
+}
+
+text {
+	font: 14px sans-serif;
+	pointer-events: none;
+	fill: black;
+	stroke: none;
+}

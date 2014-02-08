@@ -2,18 +2,18 @@
 	width: 20%;
 	height: 18px;
 	background-color: rgb(255, 221, 213);
-	padding: 3px 3px 2px 3px;
+	padding: 4px 3px 2px 3px;
 	line-height: 20px;
-	text-decoration: blink;
 	text-transform: uppercase;
 	font-size: 0.7em;
 }
 
-.item{
-	padding: 2px;
+.item {
+	padding: 0px 2px;
 	max-width: 75%;
 	float: left;
 	text-overflow: ellipsis;
+	text-transform: capitalize;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -33,20 +33,19 @@
 
 #selection > div {
 	text-align: initial;
-    border-radius: 10px; 
-    height: 20px;
-    margin: 3px; 
-    padding: 2px 8px; 
-    background-color: #eef;
+	border-radius: 10px;
+	height: 20px;
+	margin: 3px;
+	padding: 3px 2px 1px 8px;
+	background-color: #eef;
 }
-
 #selection .delete {
 	background: url(delete.svg) no-repeat center;
 	background-size: 45px 45px;
 	display: inline-block;
 	width: 20px;
 	height: 1.2em;
-	margin: 0px -8px 0px 0px;
+	margin: 0px;
 	float: right;
 	padding: 2px;
 }

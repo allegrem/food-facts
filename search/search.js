@@ -33,7 +33,7 @@ function launch() {
         results = document.getElementById('results'),
         previousValue = searchElement.value; 
         
-    var tooltip = document.getElementById('tooltip');
+    var tooltip = document.getElementById('tip');
         
     var categoriesData = $.ajax({
                     url: "../data/categories_fr.json",
@@ -102,7 +102,7 @@ function launch() {
                 (function(i){
 		            div.onclick = function() {
 		            		hideResults();
-				            $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
+				        //  $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
 				        };
 				 })(i);
 

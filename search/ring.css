@@ -18,14 +18,6 @@ way to fit your requirements.
 	opacity: 0.8;
 }
 
-#graph {
-	margin : 150px 50px;
-	color: #146;
-	font-size: 2em;
-	font-family: sans-serif;
-	text-align: center;
-}
-
 .clickable:hover {
 	cursor: pointer;
 	color: #3ad;

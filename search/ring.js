@@ -15,8 +15,8 @@
 	  $(this).mouseup(function(){
 		//window.location.href=$(this).attr('href');
 		item = new Object();
-		item['name']=clicked.text();
-		item['id']=clicked.attr('data-tag');
+		item['name']=clicked.attr('category');
+		item['id']=clicked.attr('category');
 		item['option']=$(this).attr('data-option');
 		selection.push(item);
 		updateSelectionFrame();
@@ -25,16 +25,19 @@
 
 	$('#ring').mouseup(function() {
 	 	$('#ring').fadeOut('fast');
+	 	clicked.removeClass('hover');
 		})
 		.mouseleave(function() {
 	  	$('#ring').fadeOut('fast');
+	  	clicked.removeClass('hover');
 	});
 
 	$(document).on('mousedown', '.clickable',function(e){
 		   pressTimer = window.setTimeout(function() {
-			   var elt = clicked = $(e.target);
-			   var x = elt.offset().left + elt.outerWidth()/2;
-			   var y = elt.offset().top + elt.outerHeight()/2;
+			   var elt = clicked = $(e.target).closest('.clickable');;
+			   var x = elt.offset().left + elt[0].getBBox().width/2;
+			   var y = elt.offset().top + elt[0].getBBox().height/2;
+			   elt.addClass('hover');
 			   $("#ring").css('top' , (y-150) +'px');
 			   $("#ring").css('left', (x-150) +'px');  
 			   $("#ring").fadeIn('fast');
