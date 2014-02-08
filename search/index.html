@@ -5,47 +5,54 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="search.css">
 	<link rel="stylesheet" href="ring.css">
+	<link rel="stylesheet" href="selection.css">
 </head>
 <body>
 <script src="../lib/jquery-1.10.2.min.js"></script>
 <script src="../lib/jquery.csv-0.71.min.js"></script>
+<script src="query_values.js"></script>
 
-<div id="search">
+<div id="left">
+	<div id="search">
 
-    <input type="text" id="searchbox" class="search" autocomplete="off" value=""
-		placeholder="Rechercher une catégorie, ou un produit" />
+		<input type="text" id="searchbox" class="search" autocomplete="off" value=""
+			placeholder="Rechercher une catégorie, ou un produit" />
 		
-	<p id="wait">Chargement des données en cours...</p>
-       
-    <div id="results">
-    	<div id="products_results" class="column"> 
-    		<div class="results_title">Produits</div>	
-    		<div class="nothing_found">Aucun produit trouvé</div>	
-    		<div id="products_list" class="list"></div>				
-    	</div>
-    	<div id="categories_results" class="column"> 	
-    		<div class="results_title">Catégories</div>	
-    		<div class="nothing_found">Aucune catégorie trouvée</div>	
-    		<div id="categories_list" class="list"></div>	
-    	</div>
-    </div>
-    
-    <div id="tooltip"></div>
+		<p id="wait">Chargement des données en cours...</p>
+		   
+		<div id="results">
+			<div id="products_results" class="column"> 
+				<div class="results_title">Produits</div>	
+				<div class="nothing_found">Aucun produit trouvé</div>	
+				<div id="products_list" class="list"></div>				
+			</div>
+			<div id="categories_results" class="column"> 	
+				<div class="results_title">Catégories</div>	
+				<div class="nothing_found">Aucune catégorie trouvée</div>	
+				<div id="categories_list" class="list"></div>	
+			</div>
+		</div>
+		
+		<div id="tooltip"></div>
 
+	</div>
+
+	<div id="graph" ></div>
 </div>
-
-<div id="graph" ></div>
 
 <div id="ring" >
 	<ul class="circle">
-		<li><a href="#"> <span> Tous </span></a></li>
-		<li><a href="#"> <span> Max </span></a></li>
-		<li><a href="#"> <span> Moyenne </span></a></li>
-		<li><a href="#"> <span> Min </span></a></li>
+		<li><a href="#" data-option='all'> <span> Tous </span></a></li>
+		<li><a href="#" data-option='max'> <span> Max </span></a></li>
+		<li><a href="#" data-option='mean'> <span> Moyenne </span></a></li>
+		<li><a href="#" data-option='min'> <span> Min </span></a></li>
 	</ul>
 </div>
 
+<div id="selection"> </div>
+
 <script src="search.js"></script>
+<script src="selection.js"></script>
 <script src="ring.js"></script>
 <script type="text/javascript"> $(window).load(function(){ launch(); }); </script>
 </body>

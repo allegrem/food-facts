@@ -1,4 +1,4 @@
-var data;
+var data = [];
 
 $('html').click(function(e){
 	   var res = $('#results');
@@ -9,10 +9,8 @@ $('html').click(function(e){
        else{
            $('#results').slideUp( "slow" );
        }
-
  });
  
-
 function load_data(){
 	var data_temp = $.ajax({
 		                url: "../data/data.csv",
@@ -101,7 +99,7 @@ function launch() {
                 (function(i){
 		            div.onclick = function() {
 		            		chooseResult(this);
-				            $('#graph').html('<span class="clickable">' + categories[i]["name"] + '</span>'); 
+				            $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
 				        };
 				 })(i);
 

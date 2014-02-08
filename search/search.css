@@ -12,7 +12,7 @@ body {
 	box-sizing: border-box;
 	width: 80%;
 	font-family: sans-serif;
-	margin: 35px auto auto;
+	margin: 25px auto auto;
 	font-size: 13px;
 	padding: 12px 12px 12px 40px;
 	display: block;
@@ -22,6 +22,16 @@ body {
 	border: 1px solid rgb(204, 204, 204);
 	box-shadow: 0px 1px 0px rgba(204, 204, 204, 0.5);
 	background: white url(search.svg) no-repeat 12px 12px;
+}
+
+#left {
+	float: left;
+	width: 70%;
+}
+
+#search{
+	width: 90%;
+	margin-left: 10%;
 }
 
 #wait{
@@ -75,6 +85,11 @@ body {
 	cursor: pointer;
 }
 
+#searchbox{
+	width: 100%;
+	margin-left: 0;
+}
+
 
 #tooltip{
 	display: none;
@@ -99,7 +114,6 @@ body {
 
 #results {
 	display: none;
-	width: 80%;
 	padding: 0;
 	margin: 5px auto auto;
 	font-family: sans-serif;

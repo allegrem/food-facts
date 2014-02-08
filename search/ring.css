@@ -61,7 +61,6 @@ way to fit your requirements.
 	height: 150px;
 	background: #bbb;
 	position: relative;
-	z-index: 100;
 	-webkit-transition: 0.75s;
 	-moz-transition: 0.75s;
 	-ms-transition: 0.75s;
@@ -165,17 +164,17 @@ transform: rotate(180deg);
 }
 
 
-.circle li:nth-child(1) a:hover,
-.circle li:nth-child(1) a:hover:before,
-.circle li:nth-child(1) a:hover:after {background:#646;}
-.circle li:nth-child(2) a:hover,
-.circle li:nth-child(2) a:hover:before,
-.circle li:nth-child(2) a:hover:after {background:#456;}
-.circle li:nth-child(3) a:hover,
-.circle li:nth-child(3) a:hover:before,
-.circle li:nth-child(3) a:hover:after {background:#552;}
-.circle li:nth-child(4) a:hover,
-.circle li:nth-child(4) a:hover:before,
-.circle li:nth-child(4) a:hover:after {background:#374;}
+.circle li:nth-child(1) .hover,
+.circle li:nth-child(1) .hover:before,
+.circle li:nth-child(1) .hover:after {background:#646;}
+.circle li:nth-child(2) .hover,
+.circle li:nth-child(2) .hover:before,
+.circle li:nth-child(2) .hover:after {background:#456;}
+.circle li:nth-child(3) .hover,
+.circle li:nth-child(3) .hover:before,
+.circle li:nth-child(3) .hover:after {background:#552;}
+.circle li:nth-child(4) .hover,
+.circle li:nth-child(4) .hover:before,
+.circle li:nth-child(4) .hover:after {background:#374;}
 
 
