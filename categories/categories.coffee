@@ -23,7 +23,7 @@ tick = ->
     .attr "y2", (d) -> d.target.y
   node
     .attr "transform", (d) -> "translate(" + d.x + "," + d.y + ")"
-    
+
 
 
 ##### LOAD JSON #####
@@ -31,7 +31,7 @@ tick = ->
 initJSON = (json) ->
   # get the list of the initial children
   links = []
-  for i in [0..5]
+  for i in [0..10]
     links.push {source: 'Catégories', target: json.nodes[i].name}
 
   # compute the distinct nodes from the links.
@@ -46,7 +46,7 @@ initJSON = (json) ->
     .links links
     .size [w, h]
     .linkDistance 200
-    .charge -300
+    .charge -1000
     .on "tick", tick
     .start()
 
@@ -56,6 +56,7 @@ initJSON = (json) ->
     .enter().append("line")
     .attr("class", "link");
 
+  # create the nodes
   node = svgContainer.selectAll(".node")
     .data(force.nodes())
     .enter().append("g")
@@ -64,7 +65,7 @@ initJSON = (json) ->
     # .on("mouseout", mouseout)
     # .call(force.drag)  #uncomment to make this node draggable
 
-  # create the node
+  # create the circle
   node.append("circle")
     .attr("r", 8);
 
