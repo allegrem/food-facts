@@ -3,13 +3,29 @@
 # some global variables
 w = 800
 h = 500
-link = {}
-node = {}
+
+nodes = null
+links = null
+
+
+# create force layout
+force = d3.layout.force()
+  .nodes nodes
+  .links links
+  .size [w, h]
+  .linkDistance 200
+  .charge -1000
+  .on "tick", tick
 
 
 # create svg container
 svgContainer = d3.select('body').append('svg').attr('width', w).attr('height', h)
 svgContainer.append('rect').attr('height', h).attr('width', w).attr('style', 'fill:white; stroke-width:3; stroke: black')
+
+
+# more global variables
+link = svgContainer.selectAll(".link")
+node = svgContainer.selectAll(".node")
 
 
 
@@ -28,6 +44,12 @@ tick = ->
 
 ##### LOAD JSON #####
 
+nodeClick = ->
+  console.log force
+  nodes['test'] = {name: 'test'}
+  force.nodes d3.value
+
+
 initJSON = (json) ->
   # get the list of the initial children
   links = []
@@ -40,15 +62,7 @@ initJSON = (json) ->
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
 
-  # create force layout
-  force = d3.layout.force()
-    .nodes d3.values(nodes)
-    .links links
-    .size [w, h]
-    .linkDistance 200
-    .charge -1000
-    .on "tick", tick
-    .start()
+
 
   # create the link
   link = svgContainer.selectAll(".link")
@@ -62,7 +76,7 @@ initJSON = (json) ->
     .enter().append("g")
     .attr("class", "node")
     # .on("mouseover", mouseover)
-    # .on("mouseout", mouseout)
+    .on("click", nodeClick)
     # .call(force.drag)  #uncomment to make this node draggable
 
   # create the circle
