@@ -4,8 +4,8 @@
 w = 800
 h = 500
 
-nodes = null
-links = null
+nodes = []
+links = []
 
 
 # create force layout
@@ -38,8 +38,11 @@ tick = ->
     .attr "y1", (d) -> d.source.y
     .attr "x2", (d) -> d.target.x
     .attr "y2", (d) -> d.target.y
+  # node
+    # .attr "transform", (d) -> "translate(" + d.x + "," + d.y + ")"
   node
-    .attr "transform", (d) -> "translate(" + d.x + "," + d.y + ")"
+    .attr "cx", (d) -> d.x
+    .attr "cy", (d) -> d.y
 
 
 # start the simulation
@@ -60,41 +63,44 @@ start = ->
 
 initJSON = (json) ->
   # get the list of the initial children
-  links = []
+  nodes.push {name: 'Catégories'}
   for i in [0..10]
     links.push {source: 'Catégories', target: json.nodes[i].name}
+    nodes.push {name: json.nodes[i].name}
+
+  start()
 
   # compute the distinct nodes from the links.
-  nodes = {}
-  links.forEach (link) ->
-    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
-    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
+  # nodes = {}
+  # links.forEach (link) ->
+  #   link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
+  #   link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
 
   # create the link
-  link = svgContainer.selectAll(".link")
-    .data(force.links())
-    .enter().append("line")
-    .attr("class", "link");
+  # link = svgContainer.selectAll(".link")
+  #   .data(force.links())
+  #   .enter().append("line")
+  #   .attr("class", "link")
 
-  # create the nodes
-  node = svgContainer.selectAll(".node")
-    .data(force.nodes())
-    .enter().append("g")
-    .attr("class", "node")
-    # .on("mouseover", mouseover)
-    .on("click", nodeClick)
-    # .call(force.drag)  #uncomment to make this node draggable
+  # # create the nodes
+  # node = svgContainer.selectAll(".node")
+  #   .data(force.nodes())
+  #   .enter().append("g")
+  #   .attr("class", "node")
+  #   # .on("mouseover", mouseover)
+  #   # .on("click", nodeClick)
+  #   # .call(force.drag)  #uncomment to make this node draggable
 
-  # create the circle
-  node.append("circle")
-    .attr("r", 8);
+  # # create the circle
+  # node.append("circle")
+  #   .attr("r", 8);
 
-  # create the label
-  node.append("text")
-    .attr("x", 12)
-    .attr("dy", ".35em")
-    .text (d) -> d.name  
+  # # create the label
+  # node.append("text")
+  #   .attr("x", 12)
+  #   .attr("dy", ".35em")
+  #   .text (d) -> d.name  
 
 
 # load JSON
-$.getJSON 'flare.json', initJSON
+d3.json 'flare.json', initJSON
