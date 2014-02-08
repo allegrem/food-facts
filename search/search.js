@@ -13,7 +13,7 @@ $('html').click(function(e){
  
 function load_data(){
 	var data_temp = $.ajax({
-		                url: "../data/data.csv",
+		                url: "../data/data-processed.tsv",
 		                async: false
 		             }).responseText;
 		             
@@ -166,6 +166,7 @@ function launch() {
 		item['option']='prod';
 		selection.push(item);
 		updateSelectionFrame();
+		addToHeatmap(item);
     }
 
 

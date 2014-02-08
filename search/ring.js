@@ -20,6 +20,7 @@
 		item['option']=$(this).attr('data-option');
 		selection.push(item);
 		updateSelectionFrame();
+		addToHeatmap(item);
 	  });
 	});
 
@@ -34,7 +35,7 @@
 
 	$(document).on('mousedown', '.clickable',function(e){
 		   pressTimer = window.setTimeout(function() {
-			   var elt = clicked = $(e.target).closest('.clickable');;
+			   var elt = clicked = $(e.target).closest('.clickable');
 			   var x = elt.offset().left + elt[0].getBBox().width/2;
 			   var y = elt.offset().top + elt[0].getBBox().height/2;
 			   elt.addClass('hover');

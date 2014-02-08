@@ -80,15 +80,15 @@ pro.sodium_norm = 2;
 function addproduit(produit) {
   var lon = hcrow.length;
   hcrow[lon] = lon+1;
-  rowLabel[lon] = produit.productname;
-  values[8*lon] = {row: lon+1, col: 1, value: produit.energy_norm};
-  values[8*lon+1] = {row: lon+1, col: 2, value: produit.proteins_norm};
-  values[8*lon+2] = {row: lon+1, col: 3, value: produit.carbohydrates_norm};
-  values[8*lon+3] = {row: lon+1, col: 4, value: produit.sugars_norm};
-  values[8*lon+4] = {row: lon+1, col: 5, value: produit.fat_norm};
-  values[8*lon+5] = {row: lon+1, col: 6, value: produit.saturedfat_norm};
-  values[8*lon+6] = {row: lon+1, col: 7, value: produit.fiber_norm};
-  values[8*lon+7] = {row: lon+1, col: 8, value: produit.sodium_norm};
+  rowLabel[lon] = produit.product_name;
+  values[8*lon] = {row: lon+1, col: 1, value: parseFloat(produit.energy_norm)};
+  values[8*lon+1] = {row: lon+1, col: 2, value: parseFloat(produit.proteins_norm)};
+  values[8*lon+2] = {row: lon+1, col: 3, value: parseFloat(produit.carbohydrates_norm)};
+  values[8*lon+3] = {row: lon+1, col: 4, value: parseFloat(produit.sugars_norm)};
+  values[8*lon+4] = {row: lon+1, col: 5, value: parseFloat(produit.fat_norm)};
+  values[8*lon+5] = {row: lon+1, col: 6, value: parseFloat(produit.saturatedfat_norm)};
+  values[8*lon+6] = {row: lon+1, col: 7, value: parseFloat(produit.fiber_norm)};
+  values[8*lon+7] = {row: lon+1, col: 8, value: parseFloat(produit.sodium_norm)};
 
   row_number++;
   height = cellSize*row_number;
@@ -100,8 +100,7 @@ function redessin() {
 }
 
 function render(data) {
-  console.log(values);
-  console.log(data);
+
   var colorScale = d3.scale.quantile()
       .domain([ -10 , 0, 10])
       .range(colors);
@@ -151,7 +150,7 @@ function render(data) {
         .data(data,function(d){return d.row+":"+d.col;})
         .enter()
         .append("rect")
-        .attr("x", function(d) {console.log(d.col, hccol.indexOf(d.col)); return hccol.indexOf(d.col) * cellSize *2; })
+        .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize *2; })
         .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
         .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
         .attr("width", cellSize*2)

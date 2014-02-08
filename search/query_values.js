@@ -13,9 +13,14 @@ function values_from_tag(selectedItem) {
 	 
 	 var products_subset = [];
 	 
+	 if(option == 'prod'){
+	 	return [data[tag]];
+	 }
+	 
 	 for (var i = 0; i< data.length ; i++) {
     	if(data[i]["categories_tags"]){
-			if(data[i]["categories_tags"].endsWith(tag) || data[i]["categories_tags"].indexOf(tag+',')!=-1 ){
+			if(data[i]["categories_tags"].endsWith("fr:"+tag) || data[i]["categories_tags"].indexOf("fr:"+tag+',')!=-1 ||
+			   data[i]["categories_tags"].endsWith("en:"+tag) || data[i]["categories_tags"].indexOf("en:"+tag+',')!=-1	 ){
 			 		products_subset.push(data[i]);
 			}
 		}
@@ -32,4 +37,14 @@ function values_from_tag(selectedItem) {
     	
     	return [result];
     }
+};
+
+function addToHeatmap(item){
+	
+	var objects = values_from_tag(item);
+
+	for (var i= 0;i<objects.length; i++){
+		addproduit(objects[i]);
+	}
+	redessin();
 };
