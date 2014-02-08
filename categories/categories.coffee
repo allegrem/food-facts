@@ -28,6 +28,9 @@ appendText = (cat) ->
 
 # apply main category style (centered)
 setMainAttribute = (e) ->
+  console.log $(e[0][0]).outerWidth()
+  console.log e[0][0].getBoundingClientRect().width
+  console.log e[0][0]
   bounding = e[0][0].getBoundingClientRect()
   e.attr 'x', w/2 - bounding.width/2
     .attr 'y', h/2
@@ -83,7 +86,7 @@ initJSON = (json) ->
   for i in [0..5]
     el = appendText "#{json.nodes[i].name} (#{json.nodes[i].count})"
     setChildAttribute el, i * 6.28 / 6
-    console.log json.nodes[i].links.length
+    # console.log json.nodes[i].links.length
     drawLink mainCat, el, json.nodes[i].links.length / 15
     i++
 

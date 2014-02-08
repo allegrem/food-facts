@@ -83,21 +83,35 @@ cats.sort! { |a,b| b.count <=> a.count }
 
 
 # output csv
+# puts '{'
+# puts ' "nodes": ['
+# cats.each do |c|
+#   puts '  {'
+#   puts '   "name": "'+c.name+'",'
+#   puts '   "count": '+c.count.to_s+','
+#   puts '   "links": ['
+#   links_arr = []
+#   c.links.each do |k,v|
+#     links_arr << '    {"name": "'+k.name+'", "weight": '+v.to_s+'}'
+#   end
+#   puts links_arr.join(",\n")
+#   puts '   ]'
+#   puts '  }' + (c != cats.last ? ',' : '')
+# end
+# puts ' ]'
+# puts '}'
+
+
+# output links
 puts '{'
-puts ' "nodes": ['
+puts ' "links": ['
+s = []
 cats.each do |c|
-  puts '  {'
-  puts '   "name": "'+c.name+'",'
-  puts '   "count": '+c.count.to_s+','
-  puts '   "links": ['
-  links_arr = []
   c.links.each do |k,v|
-    links_arr << '    {"name": "'+k.name+'", "weight": '+v.to_s+'}'
+    s << "  {\"source\":\"#{c.name}\", \"target\":\"#{k.name}\"}"
   end
-  puts links_arr.join(",\n")
-  puts '   ]'
-  puts '  }' + (c != cats.last ? ',' : '')
 end
+puts s.join ",\n"
 puts ' ]'
 puts '}'
 
