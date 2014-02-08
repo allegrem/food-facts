@@ -53,33 +53,36 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
-  if previousRoot
-    # remove previous root
-    nodes.splice nodes.indexOf(previousRoot), 1
+  if node is currentRoot
 
-    # remove nodes connected to previousRoot
-    for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
-      nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
+  else
+    if previousRoot
+      # remove previous root
+      nodes.splice nodes.indexOf(previousRoot), 1
 
-    # remove links connected to previousRoot 
-    links = _.reject links, (l) -> l.source.id is previousRoot.id
-    force.links links
+      # remove nodes connected to previousRoot
+      for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
+        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
 
-  # update root variables
-  previousRoot = currentRoot
-  currentRoot = node
+      # remove links connected to previousRoot 
+      links = _.reject links, (l) -> l.source.id is previousRoot.id
+      force.links links
 
-  # add the new children
-  i = 0
-  for child in node.links
-    if nodes.filter((n) -> n.id is child.name).length is 0
-      cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
-      newNode = cat
-      newNode['id'] = cat.name
-      nodes.push newNode
-      links.push {source: node, target: newNode}
-      i++
-    break  if i is MAX_CHILDREN
+    # update root variables
+    previousRoot = currentRoot
+    currentRoot = node
+
+    # add the new children
+    i = 0
+    for child in node.links
+      if nodes.filter((n) -> n.id is child.name).length is 0
+        cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
+        newNode = cat
+        newNode['id'] = cat.name
+        nodes.push newNode
+        links.push {source: node, target: newNode}
+        i++
+      break  if i is MAX_CHILDREN
 
   # refresh the simulation
   start()
@@ -101,7 +104,8 @@ start = ->
   # when a node is added
   g = node.enter()
     .append 'g'
-    .attr 'class', 'node'
+    .attr 'class', 'node clickable'
+    .attr 'category', (d) -> d.id
     .on 'click', nodeClick
   g.append 'circle'
     .attr 'r', 8
@@ -121,7 +125,7 @@ loadJSON = (json) ->
   allCategories = json
 
   # root category
-  root_node = {id: 'categories'}
+  root_node = {id: 'all', name: 'all', count: allCategories.nodes.length}
   nodes.push root_node
   currentRoot = root_node
 
