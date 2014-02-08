@@ -35,7 +35,7 @@ force = d3.layout.force()
 
 # create svg container
 svgContainer = d3
-  .select '#graph'
+  .select 'body'
   .append 'svg'
   .attr 'width', w
   .attr 'height', h
@@ -43,7 +43,7 @@ svgContainer
   .append 'rect'
   .attr 'height', h
   .attr 'width', w
-  .attr 'style', 'fill:white'
+  .attr 'style', 'fill:white; stroke-width:3; stroke: black'
 
 
 # more global variables
@@ -137,4 +137,4 @@ loadJSON = (json) ->
 
 
 # here we go
-d3.json '../categories/flare.json', loadJSON
+d3.json 'flare.json', loadJSON
