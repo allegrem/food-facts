@@ -1,11 +1,21 @@
-##### WARM UP #####
-
 # some global variables
 w = 800
 h = 500
 
 nodes = []
 links = []
+
+
+# perform one step of the simulation
+tick = ->
+  node
+    .attr "cx", (d) -> d.x
+    .attr "cy", (d) -> d.y
+  link
+    .attr "x1", (d) -> d.source.x
+    .attr "y1", (d) -> d.source.y
+    .attr "x2", (d) -> d.target.x
+    .attr "y2", (d) -> d.target.y
 
 
 # create force layout
@@ -19,35 +29,25 @@ force = d3.layout.force()
 
 
 # create svg container
-svgContainer = d3.select('body').append('svg').attr('width', w).attr('height', h)
-svgContainer.append('rect').attr('height', h).attr('width', w).attr('style', 'fill:white; stroke-width:3; stroke: black')
+svgContainer = d3
+  .select 'body'
+  .append 'svg'
+  .attr 'width', w
+  .attr 'height', h
+svgContainer
+  .append 'rect'
+  .attr 'height', h
+  .attr 'width', w
+  .attr 'style', 'fill:white; stroke-width:3; stroke: black'
 
 
 # more global variables
-link = svgContainer.selectAll(".link")
-node = svgContainer.selectAll(".node")
-
-
-
-##### DRAWING FUNCTIONS #####
-
-# perform one step of the simulation
-tick = ->
-  link
-    .attr "x1", (d) -> d.source.x
-    .attr "y1", (d) -> d.source.y
-    .attr "x2", (d) -> d.target.x
-    .attr "y2", (d) -> d.target.y
-  node
-    .attr "cx", (d) -> d.x
-    .attr "cy", (d) -> d.y
+link = svgContainer.selectAll '.link'
+node = svgContainer.selectAll '.node'
 
 
 # start the simulation
 start = ->
-  console.log force.nodes()
-  console.log force.links()
-
   link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
   link.enter().insert("line", ".node").attr("class", "link")
   link.exit().remove()
@@ -59,10 +59,8 @@ start = ->
   force.start()
 
 
-
-##### LOAD JSON #####
-
-initJSON = (json) ->
+# load json and display the first categories
+loadJSON = (json) ->
   # root category
   root_node = {id: 'categories'}
   nodes.push root_node
@@ -101,5 +99,5 @@ initJSON = (json) ->
   #   .text (d) -> d.name  
 
 
-# load JSON
-d3.json 'flare.json', initJSON
+# here we go
+d3.json 'flare.json', loadJSON
