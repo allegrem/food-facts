@@ -10,17 +10,6 @@ svgContainer = d3.select('body').append('svg').attr('width', w).attr('height', h
 svgContainer.append('rect').attr('height', h).attr('width', w).attr('style', 'fill:white; stroke-width:3; stroke: black')
 
 
-# create force layout
-force = d3.layout.force()
-  .nodes d3.values(nodes)
-  .links links
-  .size [width, height]
-  .linkDistance 60
-  .charge -300
-  .on "tick", tick
-  .start()
-
-
 
 ##### DRAWING FUNCTIONS #####
 
@@ -39,9 +28,6 @@ appendText = (cat) ->
 
 # apply main category style (centered)
 setMainAttribute = (e) ->
-  console.log $(e[0][0]).outerWidth()
-  console.log e[0][0].getBoundingClientRect().width
-  console.log e[0][0]
   bounding = e[0][0].getBoundingClientRect()
   e.attr 'x', w/2 - bounding.width/2
     .attr 'y', h/2
@@ -83,7 +69,7 @@ drawLink = (main, child, weight) ->
     .attr 'y2', y2
     .attr 'style', "stroke:black; stroke-width: #{weight}px"
 
-
+link = {}
 tick = ->
   link
     .attr "x1", (d) -> d.source.x
@@ -104,7 +90,7 @@ initJSON = (json) ->
   setMainAttribute mainCat
 
   # children
-  # children = []
+  links = []
   for i in [0..5]
     # el = appendText "#{json.nodes[i].name} (#{json.nodes[i].count})"
     # setChildAttribute el, i * 6.28 / 6
@@ -113,8 +99,6 @@ initJSON = (json) ->
     for l in node.links
       links << {source: node.name, target: l.name}
 
-  console.log links 
-
   nodes = {}
 
   #Compute the distinct nodes from the links.
@@ -122,17 +106,27 @@ initJSON = (json) ->
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
 
-  link = svg.selectAll(".link")
+  # create force layout
+  force = d3.layout.force()
+    .nodes d3.values(nodes)
+    .links links
+    .size [w, h]
+    .linkDistance 60
+    .charge -300
+    .on "tick", tick
+    .start()
+
+  link = svgContainer.selectAll(".link")
     .data(force.links())
     .enter().append("line")
     .attr("class", "link");
 
-  node = svg.selectAll(".node")
+  node = svgContainer.selectAll(".node")
     .data(force.nodes())
     .enter().append("g")
     .attr("class", "node")
-    .on("mouseover", mouseover)
-    .on("mouseout", mouseout)
+    # .on("mouseover", mouseover)
+    # .on("mouseout", mouseout)
     .call(force.drag)
 
   node.append("circle")
@@ -141,7 +135,7 @@ initJSON = (json) ->
   node.append("text")
     .attr("x", 12)
     .attr("dy", ".35em")
-    .text (d) -> d.name
+    .text (d) -> d.name  
 
   # refresh()
 
