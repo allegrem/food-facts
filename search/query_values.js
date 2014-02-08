@@ -5,8 +5,12 @@ if (typeof String.prototype.endsWith !== 'function') {
  };
 
 
-function values_from_tag(tag,option) {
+function values_from_tag(selectedItem) {
 
+	 var tag = selectedItem['tag'];
+	 var name = selectedItem['name'];
+	 var option = selectedItem['option'];
+	 
 	 var products_subset = [];
 	 
 	 for (var i = 0; i< data.length ; i++) {

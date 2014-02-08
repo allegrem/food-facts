@@ -12,7 +12,7 @@ body {
 	box-sizing: border-box;
 	width: 80%;
 	font-family: sans-serif;
-	margin: 35px auto auto;
+	margin: 25px auto auto;
 	font-size: 13px;
 	padding: 12px 12px 12px 40px;
 	display: block;
@@ -24,9 +24,14 @@ body {
 	background: white url(search.svg) no-repeat 12px 12px;
 }
 
+#left {
+	float: left;
+	width: 70%;
+}
+
 #search{
-	width: 80%;
-	margin: auto;
+	width: 90%;
+	margin-left: 10%;
 }
 
 #wait{

@@ -13,7 +13,13 @@
 
 	$('#ring a').each(function(){
 	  $(this).mouseup(function(){
-		window.location.href=$(this).attr('href');
+		//window.location.href=$(this).attr('href');
+		item = new Object();
+		item['name']=clicked.text();
+		item['tag']=clicked.attr('data-tag');
+		item['option']=$(this).attr('data-option');
+		selection.push(item);
+		updateSelection();
 	  });
 	});
 

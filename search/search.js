@@ -1,4 +1,4 @@
-var data;
+var data = [];
 
 $('html').click(function(e){
 	   var res = $('#results');
@@ -99,7 +99,7 @@ function launch() {
                 (function(i){
 		            div.onclick = function() {
 		            		chooseResult(this);
-				            $('#graph').html('<span class="clickable" tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
+				            $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
 				        };
 				 })(i);
 
