@@ -5,12 +5,12 @@ h = 500
 nodes = []
 links = []
 
+allCategories = {}
+
 
 # perform one step of the simulation
 tick = ->
   node
-    # .attr "cx", (d) -> d.x
-    # .attr "cy", (d) -> d.y
     .attr 'transform', (d) -> "translate(" + d.x + "," + d.y + ")"
   link
     .attr "x1", (d) -> d.source.x
@@ -25,7 +25,7 @@ force = d3.layout.force()
   .links links
   .size [w, h]
   .linkDistance 120
-  .charge -400
+  .charge -1000
   .on "tick", tick
 
 
@@ -47,6 +47,21 @@ link = svgContainer.selectAll '.link'
 node = svgContainer.selectAll '.node'
 
 
+# when the user clicks on a node (circle only)
+nodeClick = (node) ->
+  console.log node
+
+  i = 0
+  for child in node.links
+    cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
+    newNode = {id: cat.name, links: cat.links}
+    nodes.push newNode
+    links.push {source: node, target: newNode}
+    break  if ++i is 5
+
+  start()
+
+
 # refresh the simulation
 start = ->
   # reload the links
@@ -65,6 +80,7 @@ start = ->
   g = node.enter()
     .append 'g'
     .attr 'class', 'node'
+    .on 'click', nodeClick
   g.append 'circle'
     .attr 'r', 8
   g.append 'text'
@@ -81,13 +97,15 @@ start = ->
 
 # load json and display the first categories
 loadJSON = (json) ->
+  allCategories = json
+
   # root category
   root_node = {id: 'categories'}
   nodes.push root_node
 
   # get the list of the initial children
   for i in [0..4]
-    n = {id: json.nodes[i].name}
+    n = {id: json.nodes[i].name, links: json.nodes[i].links}
     nodes.push n
     links.push {source: root_node, target: n}
 
@@ -96,12 +114,3 @@ loadJSON = (json) ->
 
 # here we go
 d3.json 'flare.json', loadJSON
-
-
-# node = svgContainer.selectAll(".node")
-#   .data(force.nodes())
-#   .enter().append("g")
-#   .attr("class", "node")
-#   # .on("mouseover", mouseover)
-#   # .on("click", nodeClick)
-#   # .call(force.drag)  #uncomment to make this node draggable
