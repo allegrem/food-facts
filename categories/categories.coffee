@@ -2,6 +2,7 @@
 w = 800
 h = 500
 MAX_CHILDREN = 10
+currentIndex = 0
 
 nodes = []
 links = []
@@ -53,36 +54,40 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
+  if previousRoot
+    # remove previous root
+    nodes.splice nodes.indexOf(previousRoot), 1
+
+    # remove nodes connected to previousRoot
+    for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
+      nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
+
+    # remove links connected to previousRoot 
+    links = _.reject links, (l) -> l.source.id is previousRoot.id
+    force.links links
+
+  # change the children if user clicks on currentRoot
   if node is currentRoot
+    currentIndex += MAX_CHILDREN
+    previousRoot = null
 
+  # update root variables if user clicks on another node
   else
-    if previousRoot
-      # remove previous root
-      nodes.splice nodes.indexOf(previousRoot), 1
-
-      # remove nodes connected to previousRoot
-      for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
-        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
-
-      # remove links connected to previousRoot 
-      links = _.reject links, (l) -> l.source.id is previousRoot.id
-      force.links links
-
-    # update root variables
+    currentIndex = 0
     previousRoot = currentRoot
     currentRoot = node
 
-    # add the new children
-    i = 0
-    for child in node.links
-      if nodes.filter((n) -> n.id is child.name).length is 0
-        cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
-        newNode = cat
-        newNode['id'] = cat.name
-        nodes.push newNode
-        links.push {source: node, target: newNode}
-        i++
-      break  if i is MAX_CHILDREN
+  # add the new children
+  i = 0
+  for child in node.links.slice currentIndex
+    if nodes.filter((n) -> n.id is child.name).length is 0
+      cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
+      newNode = cat
+      newNode['id'] = cat.name
+      nodes.push newNode
+      links.push {source: node, target: newNode}
+      i++
+    break  if i is MAX_CHILDREN
 
   # refresh the simulation
   start()
