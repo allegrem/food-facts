@@ -78,6 +78,10 @@ products.each do |p|
 end
 
 
+# sort
+cats.sort! { |a,b| b.count <=> a.count }
+
+
 # output csv
 puts '{'
 puts ' "nodes": ['

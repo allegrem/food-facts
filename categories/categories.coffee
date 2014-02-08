@@ -71,22 +71,27 @@ drawLink = (main, child, weight) ->
 
 
 
-##### DISPLAY TIME #####
+##### LOAD JSON #####
 
-# main category
-mainCat = appendText 'Sodas'
-setMainAttribute mainCat
+initJSON = (json) ->
+  console.log json
 
-
-# children
-children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry', 'Ice Tea']
-i = 0
-for c in children
-  el = appendText c
-  setChildAttribute el, i * 6.28 / children.length
-  drawLink mainCat, el, Math.random()*10
-  i++
+  # main category
+  mainCat = appendText 'Catégories'
+  setMainAttribute mainCat
 
 
+  # children
+  children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry', 'Ice Tea']
+  i = 0
+  for c in children
+    el = appendText c
+    setChildAttribute el, i * 6.28 / children.length
+    drawLink mainCat, el, Math.random()*10
+    i++
 
-refresh()
+  refresh()
+
+
+# load JSON (async!)
+$.getJSON 'flare.json', initJSON
