@@ -1,6 +1,9 @@
+##### WARM UP #####
+
 # some global variables
 w = 800
 h = 500
+
 
 # create svg container
 svgContainer = d3.select('body').append('svg').attr('width', w).attr('height', h)
@@ -8,8 +11,11 @@ svgContainer.append('rect').attr('height', h).attr('width', w).attr('style', 'fi
 
 
 
+##### DRAWING FUNCTIONS #####
+
 # don't know why, but sometimes you need to force refresh
 refresh = -> $("body").html $("body").html()
+
 
 # create and append a text object in SVG
 appendText = (cat) -> 
@@ -19,6 +25,7 @@ appendText = (cat) ->
     .attr 'font-size', '30px'
     .attr 'id', cat
 
+
 # apply main category style (centered)
 setMainAttribute = (e) ->
   bounding = e[0][0].getBoundingClientRect()
@@ -26,11 +33,13 @@ setMainAttribute = (e) ->
     .attr 'y', h/2
     .attr 'font-size', '50px'
 
+
 # apply child style with the right angle
 setChildAttribute = (e, angle) ->
   bounding = e[0][0].getBoundingClientRect()
   e.attr 'x', w/2 - bounding.width/2 + 200 * Math.sin angle
     .attr 'y', h/2 + 200 * Math.cos angle
+
 
 # draw a link between the two elements
 drawLink = (main, child, weight) ->
@@ -42,16 +51,16 @@ drawLink = (main, child, weight) ->
   x2 = parseInt(child.attr('x')) + childBound.width
   y2 = child.attr('y') - childBound.height/2
 
-  # if y2 > y1 + 10
-  #   y2 -= childBound.height + 10
-  #   x2 += (childBound.height + 10)*x2 / y2
-  # # else if y2 < y1 - 10
-  # #   y2 += childBound.height + 10
-  # #   # x2 = 
-
-  r1 = y1/x1
-  r2 = y2/x2
-
+  if y2 < y1 - 10
+    x2 += (childBound.height + 5) * (x2-x1) / (y2-y1)
+    y2 += (childBound.height + 5)
+    x1 -= (mainBound.height + 15) * (x2-x1) / (y2-y1)
+    y1 -= mainBound.height + 15
+  else if y2 > y1 + 10
+    x2 -= (childBound.height + 5) * (x2-x1) / (y2-y1)
+    y2 -= (childBound.height + 5)
+    x1 += (mainBound.height + 15) * (x2-x1) / (y2-y1)
+    y1 += mainBound.height + 15
 
   svgContainer.append('line')
     .attr 'x1', x1
@@ -61,9 +70,13 @@ drawLink = (main, child, weight) ->
     .attr 'style', "stroke:black; stroke-width: #{weight}px"
 
 
+
+##### DISPLAY TIME #####
+
 # main category
 mainCat = appendText 'Sodas'
 setMainAttribute mainCat
+
 
 # children
 children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry', 'Ice Tea']
