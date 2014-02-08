@@ -31,6 +31,7 @@ node = svgContainer.selectAll(".node")
 
 ##### DRAWING FUNCTIONS #####
 
+# perform one step of the simulation
 tick = ->
   link
     .attr "x1", (d) -> d.source.x
@@ -41,14 +42,21 @@ tick = ->
     .attr "transform", (d) -> "translate(" + d.x + "," + d.y + ")"
 
 
+# start the simulation
+start = ->
+  link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
+  link.enter().insert("line", ".node").attr("class", "link")
+  link.exit().remove()
+
+  node = node.data force.nodes(), (d) -> d.id
+  node.enter().append("circle").attr("class", (d) -> "node " + d.id).attr("r", 8)
+  node.exit().remove()
+
+  force.start()
+
+
 
 ##### LOAD JSON #####
-
-nodeClick = ->
-  console.log force
-  nodes['test'] = {name: 'test'}
-  force.nodes d3.value
-
 
 initJSON = (json) ->
   # get the list of the initial children
@@ -61,8 +69,6 @@ initJSON = (json) ->
   links.forEach (link) ->
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
-
-
 
   # create the link
   link = svgContainer.selectAll(".link")
