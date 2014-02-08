@@ -7,6 +7,9 @@ links = []
 
 allCategories = {}
 
+currentRoot = null
+previousRoot = null
+
 
 # perform one step of the simulation
 tick = ->
@@ -49,8 +52,38 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
-  console.log node
+  if previousRoot
+    ###
+    # remove old nodes and mark old links
+    newLinks = []
+    for l in links
+      if l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
+        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
+      else
+        newLinks.push l
 
+    console.log links.length
+    console.log newLinks.length
+
+    links = newLinks
+
+    # remove previous root from nodes
+    ###
+
+    nodes.splice nodes.indexOf(previousRoot), 1
+    
+    for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
+      nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
+
+    console.log links.length
+    links = _.reject links, (l) -> l.source.id is previousRoot.id
+    console.log links.length
+
+  # update root variables
+  previousRoot = currentRoot
+  currentRoot = node
+
+  # add the new children
   i = 0
   for child in node.links
     cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
@@ -59,6 +92,7 @@ nodeClick = (node) ->
     links.push {source: node, target: newNode}
     break  if ++i is 5
 
+  # refresh the simulation
   start()
 
 
@@ -102,6 +136,7 @@ loadJSON = (json) ->
   # root category
   root_node = {id: 'categories'}
   nodes.push root_node
+  currentRoot = root_node
 
   # get the list of the initial children
   for i in [0..4]
