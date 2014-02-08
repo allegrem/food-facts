@@ -98,8 +98,6 @@ initJSON = (json) ->
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
 
-  console.log  nodes
-
   # create force layout
   force = d3.layout.force()
     .nodes d3.values(nodes)
@@ -122,7 +120,7 @@ initJSON = (json) ->
     .attr("class", "node")
     # .on("mouseover", mouseover)
     # .on("mouseout", mouseout)
-    .call(force.drag)
+    # .call(force.drag)  #uncomment to make this node draggable
 
   # create the node
   node.append("circle")
