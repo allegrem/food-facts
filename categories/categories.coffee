@@ -54,28 +54,36 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
-  if previousRoot
-    # remove previous root
-    nodes.splice nodes.indexOf(previousRoot), 1
-
-    # remove nodes connected to previousRoot
-    for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
-      nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
-
-    # remove links connected to previousRoot 
-    links = _.reject links, (l) -> l.source.id is previousRoot.id
-    force.links links
-
-  # change the children if user clicks on currentRoot
+  # if user clicks on currentRoot
   if node is currentRoot
+    # load other children
     currentIndex += MAX_CHILDREN
     previousRoot = null
 
-  # update root variables if user clicks on another node
+    # remove old nodes
+    nodes = [node]
+
+    # remove old links
+    links = _.reject links, (l) -> l.source.id is node.id
+    force.links links
+
+  #if user clicks on another node
   else
     currentIndex = 0
     previousRoot = currentRoot
     currentRoot = node
+
+    if previousRoot
+      # remove previous root
+      nodes.splice nodes.indexOf(previousRoot), 1
+
+      # remove nodes connected to previousRoot
+      for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
+        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
+
+      # remove links connected to previousRoot 
+      links = _.reject links, (l) -> l.source.id is previousRoot.id
+      force.links links
 
   # add the new children
   i = 0
