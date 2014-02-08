@@ -3,6 +3,8 @@
 # some global variables
 w = 800
 h = 500
+link = {}
+node = {}
 
 
 # create svg container
@@ -69,7 +71,7 @@ drawLink = (main, child, weight) ->
     .attr 'y2', y2
     .attr 'style', "stroke:black; stroke-width: #{weight}px"
 
-link = {}
+
 tick = ->
   link
     .attr "x1", (d) -> d.source.x
@@ -85,37 +87,30 @@ tick = ->
 ##### LOAD JSON #####
 
 initJSON = (json) ->
-  # main category
-  mainCat = appendText 'Catégories'
-  setMainAttribute mainCat
-
-  # children
+  # get the list of the initial children
   links = []
   for i in [0..5]
-    # el = appendText "#{json.nodes[i].name} (#{json.nodes[i].count})"
-    # setChildAttribute el, i * 6.28 / 6
-    # drawLink mainCat, el, json.nodes[i].links.length / 15
-    node = json.nodes[i]
-    for l in node.links
-      links << {source: node.name, target: l.name}
+    links.push {source: 'Catégories', target: json.nodes[i].name}
 
+  # compute the distinct nodes from the links.
   nodes = {}
-
-  #Compute the distinct nodes from the links.
   links.forEach (link) ->
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
+
+  console.log  nodes
 
   # create force layout
   force = d3.layout.force()
     .nodes d3.values(nodes)
     .links links
     .size [w, h]
-    .linkDistance 60
+    .linkDistance 200
     .charge -300
     .on "tick", tick
     .start()
 
+  # create the link
   link = svgContainer.selectAll(".link")
     .data(force.links())
     .enter().append("line")
@@ -129,15 +124,15 @@ initJSON = (json) ->
     # .on("mouseout", mouseout)
     .call(force.drag)
 
+  # create the node
   node.append("circle")
     .attr("r", 8);
 
+  # create the label
   node.append("text")
     .attr("x", 12)
     .attr("dy", ".35em")
     .text (d) -> d.name  
-
-  # refresh()
 
 
 # load JSON
