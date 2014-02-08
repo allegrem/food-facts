@@ -9,7 +9,6 @@ links = []
 
 allCategories = {}
 
-currentRoot = null
 previousRoot = null
 
 
@@ -54,36 +53,19 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
-  # if user clicks on currentRoot
-  if node is currentRoot
-    # load other children
-    currentIndex += MAX_CHILDREN
-    previousRoot = null
+  # empty the graph
+  links = []
+  nodes = [node]
 
-    # remove old nodes
-    nodes = [node]
+  force.links links
+  force.nodes nodes
 
-    # remove old links
-    links = _.reject links, (l) -> l.source.id is node.id
-    force.links links
-
-  #if user clicks on another node
+  # load more children if the user clicks again on the root
+  if node is previousRoot
+    currentIndex += MAX_CHILDREN  if node.links.length > currentIndex + MAX_CHILDREN
   else
     currentIndex = 0
-    previousRoot = currentRoot
-    currentRoot = node
-
-    if previousRoot
-      # remove previous root
-      nodes.splice nodes.indexOf(previousRoot), 1
-
-      # remove nodes connected to previousRoot
-      for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
-        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
-
-      # remove links connected to previousRoot 
-      links = _.reject links, (l) -> l.source.id is previousRoot.id
-      force.links links
+    previousRoot = node
 
   # add the new children
   i = 0
