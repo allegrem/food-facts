@@ -71,12 +71,13 @@ nodeClick = (node) ->
     ###
 
     nodes.splice nodes.indexOf(previousRoot), 1
-    
+
     for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
       nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
 
     console.log links.length
     links = _.reject links, (l) -> l.source.id is previousRoot.id
+    force.links links
     console.log links.length
 
   # update root variables
@@ -99,14 +100,14 @@ nodeClick = (node) ->
 # refresh the simulation
 start = ->
   # reload the links
+  console.log force.links()
   link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
   # when a link is added
   link.enter()
     .insert "line", ".node" 
     .attr "class", "link"
   # when a link is removed
-  link.exit()
-    .remove()
+  link.exit().remove()
 
   # reload the nodes
   node = node.data force.nodes(), (d) -> d.id
@@ -122,8 +123,7 @@ start = ->
     .attr 'dy', '.35em'
     .text (d) -> d.id
   # when a node is removed
-  node.exit()
-    .remove()
+  node.exit().remove()
 
   # restart the simulation
   force.start()
