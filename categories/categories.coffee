@@ -28,8 +28,8 @@ force = d3.layout.force()
   .nodes nodes
   .links links
   .size [w, h]
-  .linkDistance 120
-  .charge -400
+  .linkDistance 150
+  .charge -600
   .on "tick", tick
 
 
@@ -56,7 +56,6 @@ nodeClick = (node) ->
   # empty the graph
   links = []
   nodes = [node]
-
   force.links links
   force.nodes nodes
 
@@ -65,7 +64,6 @@ nodeClick = (node) ->
     currentIndex += MAX_CHILDREN  if node.links.length > currentIndex + MAX_CHILDREN
   else
     currentIndex = 0
-    previousRoot = node
 
   # add the new children
   i = 0
@@ -78,6 +76,14 @@ nodeClick = (node) ->
       links.push {source: node, target: newNode}
       i++
     break  if i is MAX_CHILDREN
+
+
+  # mark previous root and update it
+  if previousRoot
+    nodes.filter((n) -> n.id is previousRoot.name)[0]['previousRoot'] = 1
+    console.log nodes.filter((n) -> n.id is previousRoot.name)[0]
+  # newNode['previousRoot'] = if previousRoot and child.name is previousRoot.name then 1 else 0
+  previousRoot = node
 
   # refresh the simulation
   start()
