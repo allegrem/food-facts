@@ -29,7 +29,7 @@ force = d3.layout.force()
   .links links
   .size [w, h]
   .linkDistance 120
-  .charge -1000
+  .charge -400
   .on "tick", tick
 
 
@@ -74,7 +74,8 @@ nodeClick = (node) ->
   for child in node.links
     if nodes.filter((n) -> n.id is child.name).length is 0
       cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
-      newNode = {id: cat.name, links: cat.links}
+      newNode = cat
+      newNode['id'] = cat.name
       nodes.push newNode
       links.push {source: node, target: newNode}
       i++
@@ -107,7 +108,7 @@ start = ->
   g.append 'text'
     .attr 'x', 12
     .attr 'dy', '.35em'
-    .text (d) -> d.id
+    .text (d) -> "#{d.name} (#{d.count})"
   # when a node is removed
   node.exit().remove()
 
@@ -126,7 +127,8 @@ loadJSON = (json) ->
 
   # get the list of the initial children
   for i in [0...MAX_CHILDREN]
-    n = {id: json.nodes[i].name, links: json.nodes[i].links}
+    n = json.nodes[i]
+    n['id'] = json.nodes[i].name
     nodes.push n
     links.push {source: root_node, target: n}
 
