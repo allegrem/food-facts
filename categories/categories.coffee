@@ -9,8 +9,9 @@ links = []
 # perform one step of the simulation
 tick = ->
   node
-    .attr "cx", (d) -> d.x
-    .attr "cy", (d) -> d.y
+    # .attr "cx", (d) -> d.x
+    # .attr "cy", (d) -> d.y
+    .attr 'transform', (d) -> "translate(" + d.x + "," + d.y + ")"
   link
     .attr "x1", (d) -> d.source.x
     .attr "y1", (d) -> d.source.y
@@ -46,16 +47,35 @@ link = svgContainer.selectAll '.link'
 node = svgContainer.selectAll '.node'
 
 
-# start the simulation
+# refresh the simulation
 start = ->
+  # reload the links
   link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
-  link.enter().insert("line", ".node").attr("class", "link")
-  link.exit().remove()
+  # when a link is added
+  link.enter()
+    .insert "line", ".node" 
+    .attr "class", "link"
+  # when a link is removed
+  link.exit()
+    .remove()
 
+  # reload the nodes
   node = node.data force.nodes(), (d) -> d.id
-  node.enter().append("circle").attr("class", (d) -> "node " + d.id).attr("r", 8)
-  node.exit().remove()
+  # when a node is added
+  g = node.enter()
+    .append 'g'
+    .attr 'class', 'node'
+  g.append 'circle'
+    .attr 'r', 8
+  g.append 'text'
+    .attr 'x', 12
+    .attr 'dy', '.35em'
+    .text (d) -> d.id
+  # when a node is removed
+  node.exit()
+    .remove()
 
+  # restart the simulation
   force.start()
 
 
@@ -73,31 +93,15 @@ loadJSON = (json) ->
 
   start()
 
-  # create the link
-  # link = svgContainer.selectAll(".link")
-  #   .data(force.links())
-  #   .enter().append("line")
-  #   .attr("class", "link")
-
-  # # create the nodes
-  # node = svgContainer.selectAll(".node")
-  #   .data(force.nodes())
-  #   .enter().append("g")
-  #   .attr("class", "node")
-  #   # .on("mouseover", mouseover)
-  #   # .on("click", nodeClick)
-  #   # .call(force.drag)  #uncomment to make this node draggable
-
-  # # create the circle
-  # node.append("circle")
-  #   .attr("r", 8);
-
-  # # create the label
-  # node.append("text")
-  #   .attr("x", 12)
-  #   .attr("dy", ".35em")
-  #   .text (d) -> d.name  
-
 
 # here we go
 d3.json 'flare.json', loadJSON
+
+
+# node = svgContainer.selectAll(".node")
+#   .data(force.nodes())
+#   .enter().append("g")
+#   .attr("class", "node")
+#   # .on("mouseover", mouseover)
+#   # .on("click", nodeClick)
+#   # .call(force.drag)  #uncomment to make this node draggable
