@@ -1,6 +1,6 @@
 # some global variables
 w = 800
-h = 600
+h = 500
 
 # create svg container
 svgContainer = d3.select('body').append('svg').attr('width', w).attr('height', h)
@@ -33,24 +33,47 @@ setChildAttribute = (e, angle) ->
     .attr 'y', h/2 + 200 * Math.cos angle
 
 # draw a link between the two elements
-drawLink = (e1, e2) ->
+drawLink = (main, child, weight) ->
+  mainBound = main[0][0].getBoundingClientRect()
+  childBound = child[0][0].getBoundingClientRect()
+
+  x1 = parseInt(main.attr('x')) + mainBound.width*2
+  y1 = main.attr('y') - mainBound.height
+  x2 = parseInt(child.attr('x')) + childBound.width
+  y2 = child.attr('y') - childBound.height/2
+
+  # if y2 > y1 + 10
+  #   y2 -= childBound.height + 10
+  #   x2 += (childBound.height + 10)*x2 / y2
+  # # else if y2 < y1 - 10
+  # #   y2 += childBound.height + 10
+  # #   # x2 = 
+
+  r1 = y1/x1
+  r2 = y2/x2
+
+
   svgContainer.append('line')
-    .attr('x1', e1.attr('x'))
-    .attr('y1', e1.attr('y'))
-    .attr('x2', e2.attr('x'))
-    .attr('y2', e2.attr('y'))
-    .attr('style', 'stroke:black; stroke-width: 1px')
+    .attr 'x1', x1
+    .attr 'y1', y1
+    .attr 'x2', x2
+    .attr 'y2', y2
+    .attr 'style', "stroke:black; stroke-width: #{weight}px"
 
 
 # main category
 mainCat = appendText 'Sodas'
 setMainAttribute mainCat
 
-children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry']
+# children
+children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry', 'Ice Tea']
 i = 0
 for c in children
   el = appendText c
   setChildAttribute el, i * 6.28 / children.length
+  drawLink mainCat, el, Math.random()*10
   i++
+
+
 
 refresh()
