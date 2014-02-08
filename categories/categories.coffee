@@ -53,32 +53,16 @@ node = svgContainer.selectAll '.node'
 # when the user clicks on a node (circle only)
 nodeClick = (node) ->
   if previousRoot
-    ###
-    # remove old nodes and mark old links
-    newLinks = []
-    for l in links
-      if l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
-        nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
-      else
-        newLinks.push l
-
-    console.log links.length
-    console.log newLinks.length
-
-    links = newLinks
-
-    # remove previous root from nodes
-    ###
-
+    # remove previous root
     nodes.splice nodes.indexOf(previousRoot), 1
 
+    # remove nodes connected to previousRoot
     for l in links when l.source.id is previousRoot.id and l.target.id isnt currentRoot.id
       nodes.splice nodes.indexOf(nodes.filter((c) -> c.id is l.target.id)[0]), 1
 
-    console.log links.length
+    # remove links connected to previousRoot 
     links = _.reject links, (l) -> l.source.id is previousRoot.id
     force.links links
-    console.log links.length
 
   # update root variables
   previousRoot = currentRoot
@@ -100,7 +84,6 @@ nodeClick = (node) ->
 # refresh the simulation
 start = ->
   # reload the links
-  console.log force.links()
   link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
   # when a link is added
   link.enter()
