@@ -77,12 +77,7 @@ nodeClick = (node) ->
       i++
     break  if i is MAX_CHILDREN
 
-
-  # mark previous root and update it
-  if previousRoot
-    nodes.filter((n) -> n.id is previousRoot.name)[0]['previousRoot'] = 1
-    console.log nodes.filter((n) -> n.id is previousRoot.name)[0]
-  # newNode['previousRoot'] = if previousRoot and child.name is previousRoot.name then 1 else 0
+  # update previous node
   previousRoot = node
 
   # refresh the simulation
