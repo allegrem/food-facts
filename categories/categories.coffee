@@ -1,6 +1,7 @@
 # some global variables
 w = 800
 h = 500
+MAX_CHILDREN = 10
 
 nodes = []
 links = []
@@ -75,7 +76,7 @@ nodeClick = (node) ->
     newNode = {id: cat.name, links: cat.links}
     nodes.push newNode
     links.push {source: node, target: newNode}
-    break  if ++i is 5
+    break  if ++i is MAX_CHILDREN
 
   # refresh the simulation
   start()
@@ -122,11 +123,12 @@ loadJSON = (json) ->
   currentRoot = root_node
 
   # get the list of the initial children
-  for i in [0..4]
+  for i in [0...MAX_CHILDREN]
     n = {id: json.nodes[i].name, links: json.nodes[i].links}
     nodes.push n
     links.push {source: root_node, target: n}
 
+  # start the animation
   start()
 
 
