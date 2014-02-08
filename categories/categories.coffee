@@ -13,8 +13,8 @@ force = d3.layout.force()
   .nodes nodes
   .links links
   .size [w, h]
-  .linkDistance 200
-  .charge -1000
+  .linkDistance 120
+  .charge -400
   .on "tick", tick
 
 
@@ -38,8 +38,6 @@ tick = ->
     .attr "y1", (d) -> d.source.y
     .attr "x2", (d) -> d.target.x
     .attr "y2", (d) -> d.target.y
-  # node
-    # .attr "transform", (d) -> "translate(" + d.x + "," + d.y + ")"
   node
     .attr "cx", (d) -> d.x
     .attr "cy", (d) -> d.y
@@ -47,6 +45,9 @@ tick = ->
 
 # start the simulation
 start = ->
+  console.log force.nodes()
+  console.log force.links()
+
   link = link.data force.links(), (d) -> d.source.id + "-" + d.target.id
   link.enter().insert("line", ".node").attr("class", "link")
   link.exit().remove()
@@ -62,19 +63,17 @@ start = ->
 ##### LOAD JSON #####
 
 initJSON = (json) ->
+  # root category
+  root_node = {id: 'categories'}
+  nodes.push root_node
+
   # get the list of the initial children
-  nodes.push {name: 'Catégories'}
-  for i in [0..10]
-    links.push {source: 'Catégories', target: json.nodes[i].name}
-    nodes.push {name: json.nodes[i].name}
+  for i in [0..4]
+    n = {id: json.nodes[i].name}
+    nodes.push n
+    links.push {source: root_node, target: n}
 
   start()
-
-  # compute the distinct nodes from the links.
-  # nodes = {}
-  # links.forEach (link) ->
-  #   link.source = nodes[link.source] || (nodes[link.source] = {name: link.source})
-  #   link.target = nodes[link.target] || (nodes[link.target] = {name: link.target})
 
   # create the link
   # link = svgContainer.selectAll(".link")
