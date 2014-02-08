@@ -74,20 +74,17 @@ drawLink = (main, child, weight) ->
 ##### LOAD JSON #####
 
 initJSON = (json) ->
-  console.log json
-
   # main category
   mainCat = appendText 'Catégories'
   setMainAttribute mainCat
 
-
   # children
-  children = ['Coca-Cola', 'Pepsi', 'Orangina', 'Fanta', 'Canada Dry', 'Ice Tea']
-  i = 0
-  for c in children
-    el = appendText c
-    setChildAttribute el, i * 6.28 / children.length
-    drawLink mainCat, el, Math.random()*10
+  children = []
+  for i in [0..5]
+    el = appendText "#{json.nodes[i].name} (#{json.nodes[i].count})"
+    setChildAttribute el, i * 6.28 / 6
+    console.log json.nodes[i].links.length
+    drawLink mainCat, el, json.nodes[i].links.length / 15
     i++
 
   refresh()
