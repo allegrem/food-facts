@@ -7,7 +7,7 @@ if (typeof String.prototype.endsWith !== 'function') {
 
 function values_from_tag(selectedItem) {
 
-	 var tag = selectedItem['tag'];
+	 var tag = selectedItem['id'];
 	 var name = selectedItem['name'];
 	 var option = selectedItem['option'];
 	 

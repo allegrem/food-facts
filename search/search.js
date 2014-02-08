@@ -49,6 +49,7 @@ function launch() {
         
         var categories_result = [];
         var products_result = [];
+        var nb_product = 0;
         
         if(keyword != ""){        	
 		    for (var i = 0; i < categories.length && categories_result.length < 20; i++) {
@@ -56,10 +57,13 @@ function launch() {
 				 		categories_result.push(categories[i]);
 		    }
 		    
-		    for (var i = 0; i< data.length && products_result.length < 100 ; i++) {
+		    for (var i = 0; i< data.length && products_result.length < 100 ; i++){
 		    	if(data[i]["product_name"]){
-					if((data[i]["product_name"].toLowerCase()).indexOf(keyword)!=-1)
+					if((data[i]["product_name"].toLowerCase()).indexOf(keyword)!=-1){
 					 		products_result.push(data[i]);
+					 		products_result[nb_product]['data-idx']=i;
+					 		nb_product++;
+					 }
 				}
 		    }
 		    
@@ -69,7 +73,6 @@ function launch() {
 		}
 		else
 		  $('#results').slideUp( 'slow' );   
-     
     }
 
     function displayResults(response) { // Affiche les résultats d'une requête
@@ -98,7 +101,7 @@ function launch() {
                 
                 (function(i){
 		            div.onclick = function() {
-		            		chooseResult(this);
+		            		hideResults();
 				            $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
 				        };
 				 })(i);
@@ -115,6 +118,7 @@ function launch() {
 
                 div = p_results.appendChild(document.createElement('div'));
                 div.className = "result";
+                div['data-idx'] = products[i]['data-idx'];
                 
                 div.innerHTML = products[i]["product_name"];
                 
@@ -143,31 +147,34 @@ function launch() {
 					});
                	
                 div.onclick = function() {
-                    chooseResult(this);
+                    chooseProduct(this);
                 };
-
             }
-
         }
-
     }
 
-    function chooseResult(result) { 
+    function hideResults() { 
         searchElement.focus(); 
         $('#tooltip').hide();
         $('#results').slideUp( "slow" );
     }
+    
+    function chooseProduct(product){
+    	item = new Object();
+		item['name']=product.innerHTML;
+		item['id']=product['data-idx'];
+		item['option']='prod';
+		selection.push(item);
+		updateSelectionFrame();
+    }
 
 
-    searchElement.onkeyup = function(e) {
-      
+    searchElement.onkeyup = function(e) {   
        e = e || window.event; // On n'oublie pas la compatibilité pour IE
-
        if (searchElement.value != previousValue) { // Si le contenu du champ de recherche a changé
             previousValue = searchElement.value;
             getResults(previousValue);
       }
-
     };
     
     searchElement.onclick = function() {

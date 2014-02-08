@@ -16,10 +16,10 @@
 		//window.location.href=$(this).attr('href');
 		item = new Object();
 		item['name']=clicked.text();
-		item['tag']=clicked.attr('data-tag');
+		item['id']=clicked.attr('data-tag');
 		item['option']=$(this).attr('data-option');
 		selection.push(item);
-		updateSelection();
+		updateSelectionFrame();
 	  });
 	});
 
@@ -48,6 +48,6 @@
 	 	.on('mouseleave', '.clickable',function(){
 		   clearTimeout(pressTimer);
 	 	   return false;
-	 	});;
+	 	});
 })();
  	
