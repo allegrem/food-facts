@@ -72,11 +72,13 @@ nodeClick = (node) ->
   # add the new children
   i = 0
   for child in node.links
-    cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
-    newNode = {id: cat.name, links: cat.links}
-    nodes.push newNode
-    links.push {source: node, target: newNode}
-    break  if ++i is MAX_CHILDREN
+    if nodes.filter((n) -> n.id is child.name).length is 0
+      cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
+      newNode = {id: cat.name, links: cat.links}
+      nodes.push newNode
+      links.push {source: node, target: newNode}
+      i++
+    break  if i is MAX_CHILDREN
 
   # refresh the simulation
   start()
