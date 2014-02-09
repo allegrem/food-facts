@@ -3,6 +3,13 @@
 	border: 1px solid rgb(204, 204, 204);
  }
  
+#graph text {
+	font: 14px sans-serif;
+	pointer-events: none;
+	fill: black;
+	stroke: none;
+}
+ 
 .link {
     fill: none;
     stroke: #666;
@@ -15,15 +22,10 @@
 	stroke-width: 1.5px;
 }
 
+
 .node.hover,
 .node:hover,
 .node:hover text{
-	fill: #f00;
+	fill: #f00 !important;
 }
 
-#graph text {
-	font: 14px sans-serif;
-	pointer-events: none;
-	fill: black;
-	stroke: none;
-}

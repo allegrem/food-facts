@@ -81,14 +81,14 @@ function addproduit(produit) {
   var lon = hcrow.length;
   hcrow[lon] = lon+1;
   rowLabel[lon] = produit.product_name;
-  values[8*lon] = {row: lon+1, col: 1, value: parseFloat(produit.energy_norm)};
-  values[8*lon+1] = {row: lon+1, col: 2, value: parseFloat(produit.proteins_norm)};
-  values[8*lon+2] = {row: lon+1, col: 3, value: parseFloat(produit.carbohydrates_norm)};
-  values[8*lon+3] = {row: lon+1, col: 4, value: parseFloat(produit.sugars_norm)};
-  values[8*lon+4] = {row: lon+1, col: 5, value: parseFloat(produit.fat_norm)};
-  values[8*lon+5] = {row: lon+1, col: 6, value: parseFloat(produit.saturatedfat_norm)};
-  values[8*lon+6] = {row: lon+1, col: 7, value: parseFloat(produit.fiber_norm)};
-  values[8*lon+7] = {row: lon+1, col: 8, value: parseFloat(produit.sodium_norm)};
+  values[8*lon] = {row: lon+1, col: 1, value: +produit.energy_norm};
+  values[8*lon+1] = {row: lon+1, col: 2, value: +produit.proteins_norm};
+  values[8*lon+2] = {row: lon+1, col: 3, value: +produit.carbohydrates_norm};
+  values[8*lon+3] = {row: lon+1, col: 4, value: +produit.sugars_norm};
+  values[8*lon+4] = {row: lon+1, col: 5, value: +produit.fat_norm};
+  values[8*lon+5] = {row: lon+1, col: 6, value: +produit.saturatedfat_norm};
+  values[8*lon+6] = {row: lon+1, col: 7, value: +produit.fiber_norm};
+  values[8*lon+7] = {row: lon+1, col: 8, value: +produit.sodium_norm};
 
   row_number++;
   height = cellSize*row_number;

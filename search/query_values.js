@@ -33,7 +33,41 @@ function values_from_tag(selectedItem) {
     	result = new Object();
     	result.product_name = tag+'_'+option;
     	
-    	/* TO DO HERE : look for min values in the subset and build the corresponding object */
+    	var properties = ['energy_norm','proteins_norm','carbohydrates_norm','sugars_norm'
+    						,'fat_norm','saturatedfat_norm','fiber_norm','sodium_norm'];
+    	var nprop = properties.length;					
+    	
+    	if(option == 'min'){
+			for(var i=0;i<nprop;i++){
+				var temp = Number.MAX_VALUE;
+				for( var j=0;j<products_subset.length;j++){
+					if (+products_subset[j][properties[i]]<temp){
+						temp = +products_subset[j][properties[i]];
+					}
+				}
+				result[properties[i]]=temp;
+			}
+		}
+		else if(option == 'max'){
+			for(var i=0;i<nprop;i++){
+				var temp = 0;
+				for( var j=0;j<products_subset.length;j++){
+					if (+products_subset[j][properties[i]]>temp){
+						temp = +products_subset[j][properties[i]];
+					}
+				}
+				result[properties[i]]=temp;
+			}
+		}
+		else if(option == 'mean'){
+			for(var i=0;i<nprop;i++){
+				var temp = 0;
+				for( var j=0;j<products_subset.length;j++){
+					temp += +products_subset[j][properties[i]];
+				}
+				result[properties[i]]=temp/(products_subset.length);
+			}
+		}
     	
     	return [result];
     }
