@@ -29,7 +29,7 @@ function values_from_tag(selectedItem) {
     if (option == 'all'){
     	return products_subset;
     }
-    else if (option == 'min') {
+    else if (option == 'min' || option == 'max' || option == 'mean') {
     	result = new Object();
     	result.product_name = tag+'_'+option;
     	

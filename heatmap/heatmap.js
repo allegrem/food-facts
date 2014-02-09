@@ -378,7 +378,7 @@ function render(data) {
          d3.selectAll(".text-selection").classed("text-selection",false);
       })
       .on("mouseout", function() {
-         if(d3.event.relatedTarget.tagName=='html') {
+         if(d3.event.relatedTarget && d3.event.relatedTarget.tagName=='html') {
                  // remove selection frame
              sa.selectAll("rect.selection").remove();
                  // remove temporary selection marker class

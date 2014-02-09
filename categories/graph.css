@@ -21,7 +21,7 @@
 	fill: #f00;
 }
 
-text {
+#graph text {
 	font: 14px sans-serif;
 	pointer-events: none;
 	fill: black;
