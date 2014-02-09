@@ -7,7 +7,7 @@ currentIndex = 0
 nodes = []
 links = []
 
-allCategories = {}
+window.allCategories = {}
 
 previousRoot = null
 
@@ -52,7 +52,9 @@ node = svgContainer.selectAll '.node'
 
 
 # when the user clicks on a node (circle only)
-nodeClick = (node) ->
+window.nodeClick = (node) ->
+  console.log node
+
   # empty the graph
   links = []
   nodes = [node]
@@ -69,7 +71,7 @@ nodeClick = (node) ->
   i = 0
   for child in node.links.slice currentIndex
     if nodes.filter((n) -> n.id is child.name).length is 0
-      cat = allCategories.nodes.filter((c) -> c.name is child.name)[0]
+      cat = window.allCategories.nodes.filter((c) -> c.name is child.name)[0]
       newNode = cat
       newNode['id'] = cat.name
       nodes.push newNode
@@ -118,12 +120,11 @@ start = ->
 
 # load json and display the first categories
 loadJSON = (json) ->
-  allCategories = json
+  window.allCategories = json
 
   # root category
-  root_node = {id: 'all', name: 'all', count: allCategories.nodes.length}
+  root_node = {id: 'all', name: 'all', count: window.allCategories.nodes.length}
   nodes.push root_node
-  currentRoot = root_node
 
   # get the list of the initial children
   for i in [0...MAX_CHILDREN]
