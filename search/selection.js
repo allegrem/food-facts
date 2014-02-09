@@ -14,6 +14,7 @@ function updateSelectionFrame(){
 
 $(document).on('click', '.delete',function(e){
 	   var idx = e.target.getAttribute('data-idx');
+	   deleteSelection(selection[idx]);
 	   selection.splice(idx, 1);
 	   updateSelectionFrame();
  	}); 

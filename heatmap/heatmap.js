@@ -9,26 +9,6 @@ var margin = { top: 150, right: 100, bottom: 50, left: 350 },
   colorBuckets = 21,
   colors = ['#005824','#1A693B','#347B53','#4F8D6B','#699F83','#83B09B','#9EC2B3','#B8D4CB','#D2E6E3','#EDF8FB','#FFFFFF','#F1EEF6','#E6D3E1','#DBB9CD','#D19EB9','#C684A4','#BB6990','#B14F7C','#A63467','#9B1A53','#91003F'];
 
-  var hcrow_temp = $.ajax({
-		                url: "../heatmap/hcrow.tsv",
-		                async: false
-		             }).responseText;
-
-var hcrow_data = $.csv.toArray(hcrow_temp,{"separator":"\n"}).map(function(e) {return parseInt(e, 10)});
-
-  var hccol_temp = $.ajax({
-		                url: "../heatmap/hccol.tsv",
-		                async: false
-		             }).responseText;
-
-var hccol_data = $.csv.toArray(hccol_temp,{"separator":"\n"}).map(function(e) {return parseInt(e, 10)});
-
-  var rowLabel_temp = $.ajax({
-		                url: "../heatmap/rowlabel.tsv",
-		                async: false
-		             }).responseText;
-
-var rowLabel_data = $.csv.toArray(rowLabel_temp,{"separator":"\n"});
 
   var colLabel_temp = $.ajax({
 		                url: "../heatmap/collabel.tsv",
@@ -42,9 +22,10 @@ var rowLabel_data = $.csv.toArray(rowLabel_temp,{"separator":"\n"});
 
 var values = [];
 var hcrow = [];
-var hccol = [];
+var hccol = [1,2,3,4,5,6,7,8];
 var rowLabel = [];
-var colLabel = [];
+var colLabel = colLabel_data;
+/*
 for (var j = 0; j < 8; j++) {
   values[j] = {row: 1, col: j+1, value: 9-2*j};
   values[j+8] = {row: 2, col: j+1, value: j};
@@ -58,78 +39,57 @@ hcrow[2] = hcrow_data[2];
 rowLabel[0] = rowLabel_data[0];
 rowLabel[1] = rowLabel_data[1];
 rowLabel[2] = rowLabel_data[2];
-row_number+=3;
-height = cellSize*row_number;
-render(values);
+row_number+=3; */
+height = cellSize*row_number; 
+//render(values);
 
-var pro = new Object();
-pro.productname = "Ouioui la peluche";
-pro.energy_norm = 4;
-pro.proteins_norm = -2;
-pro.carbohydrates_norm = 8;
-pro.sugars_norm = 5;
-pro.fat_norm = -7;
-pro.saturedfat_norm = -8;
-pro.fiber_norm = 0;
-pro.sodium_norm = 2;
-
-//setTimeout(function() {addproduit(pro);}, 5000);
-
-//setTimeout(redessin, 10000);
 
 function addproduit(produit) {
+   
   var lon = hcrow.length;
-  hcrow[lon] = lon+1;
+  hcrow[lon] = produit;
   rowLabel[lon] = produit.product_name;
-  values[8*lon] = {row: lon+1, col: 1, value: +produit.energy_norm};
-  values[8*lon+1] = {row: lon+1, col: 2, value: +produit.proteins_norm};
-  values[8*lon+2] = {row: lon+1, col: 3, value: +produit.carbohydrates_norm};
-  values[8*lon+3] = {row: lon+1, col: 4, value: +produit.sugars_norm};
-  values[8*lon+4] = {row: lon+1, col: 5, value: +produit.fat_norm};
-  values[8*lon+5] = {row: lon+1, col: 6, value: +produit.saturatedfat_norm};
-  values[8*lon+6] = {row: lon+1, col: 7, value: +produit.fiber_norm};
-  values[8*lon+7] = {row: lon+1, col: 8, value: +produit.sodium_norm};
+  values[8*lon] = {row: lon+1, col: 1, value: +produit.energy_norm, raw: +produit.energy_100g, product: produit};
+  values[8*lon+1] = {row: lon+1, col: 2, value: +produit.proteins_norm, raw: +produit.proteins_100g, product: produit};
+  values[8*lon+2] = {row: lon+1, col: 3, value: +produit.carbohydrates_norm, raw: +produit.carbohydrates_100g, product: produit};
+  values[8*lon+3] = {row: lon+1, col: 4, value: +produit.sugars_norm, raw: +produit.sugars_100g, product: produit};
+  values[8*lon+4] = {row: lon+1, col: 5, value: +produit.fat_norm, raw: +produit.fat_100g, product: produit};
+  values[8*lon+5] = {row: lon+1, col: 6, value: +produit.saturatedfat_norm, raw: +produit.saturatedfat_100g, product: produit};
+  values[8*lon+6] = {row: lon+1, col: 7, value: +produit.fiber_norm, raw: +produit.fiber_100g, product: produit};
+  values[8*lon+7] = {row: lon+1, col: 8, value: +produit.sodium_norm, raw: +produit.fiber_100g, product: produit};
 
   row_number++;
   height = cellSize*row_number;
 }
 
-function redessin() {
+function effacer() {
   d3.select("#chart svg").remove();
-  render(values);
 }
 
-function render(data) {
+
+function ajouter(){
+  update(values);
+}
+
+/* function render(data) { */
 
   var colorScale = d3.scale.quantile()
       .domain([ -10 , 0, 10])
       .range(colors);
   
-  var svg = d3.select("#chart").append("svg")
+function initChart(){
+   svg = d3.select("#chart").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
       ;
-  var rowSortOrder=false;
-  var colSortOrder=false;
-  var rowLabels = svg.append("g")
-      .selectAll(".rowLabelg")
-      .data(rowLabel)
-      .enter()
-      .append("text")
-      .text(function (d) { return d; })
-      .attr("x", 0)
-      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
-      .style("text-anchor", "end")
-      .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
-      .attr("class", function (d,i) { return "rowLabel mono r"+i;} ) 
-      .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
-      .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
-      .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;})
-      ;
+   rowSortOrder=false;
+   colSortOrder=false;
+  
+   rowLabels = svg.append("g");
 
-  var colLabels = svg.append("g")
+   colLabels = svg.append("g")
       .selectAll(".colLabelg")
       .data(colLabel)
       .enter()
@@ -142,69 +102,38 @@ function render(data) {
       .attr("class",  function (d,i) { return "colLabel mono c"+i;} )
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
-      .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;})
+      .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);})
       ;
 
-  var heatMap = svg.append("g").attr("class","g3")
-        .selectAll(".cellg")
-        .data(data,function(d){return d.row+":"+d.col;})
-        .enter()
-        .append("rect")
-        .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize *2; })
-        .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
-        .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
-        .attr("width", cellSize*2)
-        .attr("height", cellSize)
-        .style("fill", function(d) { return colorScale(d.value); })
-        /* .on("click", function(d) {
-               var rowtext=d3.select(".r"+(d.row-1));
-               if(rowtext.classed("text-selected")==false){
-                   rowtext.classed("text-selected",true);
-               }else{
-                   rowtext.classed("text-selected",false);
-               }
-        })*/
-        .on("mouseover", function(d){
-               //highlight text
-               d3.select(this).classed("cell-hover",true);
-               d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.row-1);});
-               d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.col-1);});
-        
-               //Update the tooltip position and value
-               d3.select("#tooltip")
-                 .style("left", (d3.event.pageX+10) + "px")
-                 .style("top", (d3.event.pageY-10) + "px")
-                 .select("#value")
-                 .text("lables:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\ndata:"+d.value+"\nrow-col-idx:"+d.col+","+d.row+"\ncell-xy "+this.x.baseVal.value+", "+this.y.baseVal.value);  
-               //Show the tooltip
-               d3.select("#tooltip").classed("hidden", false);
-        })
-        .on("mouseout", function(){
-               d3.select(this).classed("cell-hover",false);
-               d3.selectAll(".rowLabel").classed("text-highlight",false);
-               d3.selectAll(".colLabel").classed("text-highlight",false);
-               d3.select("#tooltip").classed("hidden", true);
-        })
-        ;
+   heatMap = svg.append("g").attr("class","g3");
+};
 
-  var legend = svg.selectAll(".legend")
-      .data([-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10])
-      .enter().append("g")
-      .attr("class", "legend");
- 
-  legend.append("rect")
-    .attr("x", function(d, i) { return legendElementWidth * i - margin.left; })
-    .attr("y", height+(cellSize*1))
-    .attr("width", legendElementWidth)
-    .attr("height", cellSize)
-    .style("fill", function(d, i) { return colors[i]; });
- 
-  legend.append("text")
-    .attr("class", "mono")
-    .text(function(d) { return d; })
-    .attr("width", legendElementWidth)
-    .attr("x", function(d, i) { return legendElementWidth * i - margin.left; })
-    .attr("y", height + (cellSize*3));
+  initChart();
+        
+
+  function legend(){
+	  bottomLegend = svg.selectAll(".legend")
+		  .data([-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10])
+		  .enter().append("g")
+		  .attr("class", "legend");
+	 
+	  bottomLegend.append("rect")
+		.attr("x", function(d, i) { return legendElementWidth * i - margin.left; })
+		.attr("y", height+(cellSize*1))
+		.attr("width", legendElementWidth)
+		.attr("height", cellSize)
+		.style("fill", function(d, i) { return colors[i]; });
+	 
+	  bottomLegend.append("text")
+		.attr("class", "mono")
+		.text(function(d) { return d; })
+		.attr("width", legendElementWidth)
+		.attr("x", function(d, i) { return legendElementWidth * i - margin.left; })
+		.attr("y", height + (cellSize*3));
+		
+ 	}
+ 	
+ 	var bottomLegend = legend();
 
 // Change ordering of cells
 
@@ -290,7 +219,7 @@ function render(data) {
       ;
    }
   }
-  // 
+  
   var sa=d3.select(".g3")
       .on("mousedown", function() {
           if( !d3.event.altKey) {
@@ -388,4 +317,80 @@ function render(data) {
          }
       })
       ;
+/* } */
+
+function update(data){
+
+	d3.select("#chart svg").attr("height", height + margin.top + margin.bottom);
+	
+	
+
+ svg.selectAll(".rowLabelg")
+ 		.data(rowLabel)
+      .enter()
+      .append("text")
+      .text(function (d) { return d; })
+      .attr("x", 0)
+      .attr("y", function (d, i) { return rowLabel.indexOf(d) * cellSize; })
+      .style("text-anchor", "end")
+      .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
+      .attr("class", function (d,i) { return "rowLabel mono r"+i;} ) 
+      .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
+      .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
+      .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);})
+      ;
+      
+ svg.selectAll(".cellg")
+        .data(data,function(d){return d.row+":"+d.col;})
+        .enter()
+        .append("rect")
+        .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize *2; })
+        .attr("y", function(d) { return hcrow.indexOf(d.product) * cellSize; })
+        .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("width", cellSize*2)
+        .attr("height", cellSize)
+        .style("fill", function(d) { return colorScale(d.value); })
+        .on("mouseover", function(d){
+               //highlight text
+               d3.select(this).classed("cell-hover",true);
+               d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.row-1);});
+               d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.col-1);});
+        
+               //Update the tooltip position and value
+               d3.select("#tooltip")
+                 .style("left", (d3.event.pageX+10) + "px")
+                 .style("top", (d3.event.pageY-10) + "px")
+                 .select("#value")
+                 .text("lables:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\nvaleur:"+d.raw+"\nrow-col-idx:"+d.col+","+d.row+"\ncell-xy "+this.x.baseVal.value+", "+this.y.baseVal.value);  
+               //Show the tooltip
+               d3.select("#tooltip").classed("hidden", false);
+        })
+        .on("mouseout", function(){
+               d3.select(this).classed("cell-hover",false);
+               d3.selectAll(".rowLabel").classed("text-highlight",false);
+               d3.selectAll(".colLabel").classed("text-highlight",false);
+               d3.select("#tooltip").classed("hidden", true);
+        })
+        ;
+        
+        svg.selectAll(".legend").remove();
+        legend();
+}
+
+function removeFromChart(produit){
+	
+	var index = hcrow.indexOf(produit);
+
+	if (index > -1) {
+ 	   hcrow.splice(index, 1);
+ 	   rowLabel.splice(index, 1);
+ 	   values.splice(8*index,8);
+ 	   row_number--;
+  	   height = cellSize*row_number;
+	}
+	
+	for( var i=8*index;i<values.length;i++){
+		values[i].row -= 1;
+	}
+	
 }

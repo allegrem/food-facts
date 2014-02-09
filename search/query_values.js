@@ -34,7 +34,9 @@ function values_from_tag(selectedItem) {
     	result.product_name = tag+'_'+option;
     	
     	var properties = ['energy_norm','proteins_norm','carbohydrates_norm','sugars_norm'
-    						,'fat_norm','saturatedfat_norm','fiber_norm','sodium_norm'];
+    						,'fat_norm','saturatedfat_norm','fiber_norm','sodium_norm',
+    					  'energy_100g','proteins_100g','carbohydrates_100g','sugars_100g'
+    						,'fat_100g','saturatedfat_100g','fiber_100g','sodium_100g'];
     	var nprop = properties.length;					
     	
     	if(option == 'min'){
@@ -81,5 +83,19 @@ function addToHeatmap(item){
 	for (var i= 0;i<objects.length; i++){
 		addproduit(objects[i]);
 	}
-	redessin();
+	ajouter();
 };
+
+function deleteSelection(item){
+	
+	var objects = item.data;
+
+	for (var i= 0;i<objects.length; i++){
+		removeFromChart(objects[i]);
+	}
+	effacer();
+	initChart();
+	ajouter();
+};
+
+
