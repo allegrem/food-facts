@@ -13,7 +13,7 @@
 
 	$('#ring a').each(function(){
 	  $(this).mouseup(function(){
-		//window.location.href=$(this).attr('href');
+		hideResults();
 		item = new Object();
 		item['name']=clicked.attr('category');
 		item['id']=clicked.attr('category');
@@ -35,9 +35,16 @@
 
 	$(document).on('mousedown', '.clickable',function(e){
 		   pressTimer = window.setTimeout(function() {
+		       var x,y;
 			   var elt = clicked = $(e.target).closest('.clickable');
-			   var x = elt.offset().left + elt[0].getBBox().width/2;
-			   var y = elt.offset().top + elt[0].getBBox().height/2;
+			   if(elt[0].getBBox){
+			     x = elt.offset().left + elt[0].getBBox().width/2;
+			   	 y = elt.offset().top + elt[0].getBBox().height/2;
+			   }else{
+			 	    x = elt.offset().left + elt.outerWidth()/2 -50;
+			   		y = elt.offset().top + elt.outerHeight()/2;
+			   }
+			   
 			   elt[0].classList.add("hover");
 			   $("#ring").css('top' , (y-150) +'px');
 			   $("#ring").css('left', (x-150) +'px');  

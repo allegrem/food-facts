@@ -82,6 +82,7 @@ body {
 	overflow:visible;
 }
 
+.result.hover,
 .result:hover, .result_focus{
 	background-color: #ddd;
 	cursor: pointer;

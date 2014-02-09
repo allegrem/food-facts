@@ -93,7 +93,8 @@ function launch() {
             for (var i = 0, div ; i < responseLen ; i++) {
 
                 div = c_results.appendChild(document.createElement('div'));
-                div.className = "result";
+                div.className = "result clickable";
+                div.setAttribute('category',categories[i]["tag"].substring(3));
                 
                 div.innerHTML = categories[i]["name"] 
                 				+ '<br> <span class="details"> '+ "<i>"+ categories[i]["tag"] + "</i>  -  " 
@@ -155,12 +156,6 @@ function launch() {
             }
         }
     }
-
-    function hideResults() { 
-        searchElement.focus(); 
-        $('#tooltip').hide();
-        $('#results').slideUp( "slow" );
-    }
     
     function chooseProduct(product){
     	item = new Object();
@@ -186,4 +181,9 @@ function launch() {
     };
 
 };
+
+function hideResults() { 
+        $('#tooltip').hide();
+        $('#results').slideUp( "slow" );
+    }
 

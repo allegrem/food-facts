@@ -16,6 +16,7 @@ way to fit your requirements.
 	top: 100px;
 	left: 100px;
 	opacity: 0.8;
+	z-index: 12;
 }
 
 .clickable:hover {
