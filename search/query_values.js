@@ -50,7 +50,7 @@ function values_from_tag(selectedItem) {
 		}
 		else if(option == 'max'){
 			for(var i=0;i<nprop;i++){
-				var temp = Number.MIN_VALUE;
+				var temp = -Number.MAX_VALUE;
 				for( var j=0;j<products_subset.length;j++){
 					if (+products_subset[j][properties[i]]>temp){
 						temp = +products_subset[j][properties[i]];

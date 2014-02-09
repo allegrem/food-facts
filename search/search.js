@@ -183,7 +183,7 @@ function launch() {
 };
 
 function hideResults() { 
-        $('#tooltip').hide();
+        $('#tip').hide();
         $('#results').slideUp( "slow" );
     }
 

@@ -19,9 +19,10 @@ way to fit your requirements.
 	z-index: 12;
 }
 
+.clickable.hover,
 .clickable:hover {
 	cursor: pointer;
-	color: #3ad;
+	color: #157;
 }
 
 .circle {

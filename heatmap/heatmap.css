@@ -60,7 +60,8 @@
         fill: #00C;
       }
  
-  #tooltip {
+#tooltip {
+	display: block;
     position: absolute;
     width: 200px;
     height: auto;
@@ -75,9 +76,9 @@
     pointer-events: none;
   }
 
-  #tooltip.hidden {
+#tooltip.hidden {
     display: none;
-  }
+}
 
   #tooltip p {
     margin: 0;
