@@ -10,7 +10,7 @@
 
 .item {
 	padding: 0px 2px;
-	max-width: 65%;
+	max-width: 115px;
 	float: left;
 	text-overflow: ellipsis;
 	text-transform: capitalize;
@@ -39,6 +39,7 @@
 	background-color: #eef;
 	max-width: 180px;
 	display: inline-block;
+	vertical-align: top;
 }
 
 #selection .delete {
