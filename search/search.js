@@ -102,7 +102,10 @@ function launch() {
                 (function(i){
 		            div.onclick = function() {
 		            		hideResults();
-				        //  $('#graph').html('<span class="clickable" data-tag="'+categories[i]["tag"]+'">' + categories[i]["name"] + '</span>'); 
+		            		clicked_category_name = categories[i]['tag'].substring(3);
+		            		n = window.allCategories.nodes.filter(function (c) { return c.name == clicked_category_name })[0]
+							n['id'] = clicked_category_name
+							window.nodeClick(n);
 				        };
 				 })(i);
 
