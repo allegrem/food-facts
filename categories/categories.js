@@ -2,7 +2,7 @@
 (function() {
   var MAX_CHILDREN, currentIndex, force, h, link, links, loadJSON, node, nodes, previousRoot, start, svgContainer, tick, w;
 
-  w = 800;
+  w = 700;
 
   h = 500;
 
