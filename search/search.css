@@ -7,23 +7,17 @@ body {
 	padding: 20px;
 }
 
-#graph iframe{
-	border: none;
-	width: 850px;
-	height: 540px;
-}
-
 .content{
 	z-index:0;
 }
 
-.search{
+#searchbox {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	width: 80%;
+	width: 300px;
 	font-family: sans-serif;
-	margin: 25px auto auto;
+	margin: 0;
 	font-size: 13px;
 	padding: 12px 12px 12px 40px;
 	display: block;
@@ -33,16 +27,12 @@ body {
 	border: 1px solid rgb(204, 204, 204);
 	box-shadow: 0px 1px 0px rgba(204, 204, 204, 0.5);
 	background: white url(search.svg) no-repeat 12px 12px;
-}
-
-#left {
 	float: left;
-	width: 70%;
 }
 
-#search{
-	width: 90%;
-	margin-left: 10%;
+#search {
+	margin-left: 20px;
+	margin-top: 10px;
 }
 
 #wait{
@@ -71,6 +61,7 @@ body {
 	border-radius: 3px;
 	padding: 5px;
 	width: 48%;
+	background-color: white;
 }
 
 .list{
@@ -94,11 +85,6 @@ body {
 .result:hover, .result_focus{
 	background-color: #ddd;
 	cursor: pointer;
-}
-
-#searchbox{
-	width: 100%;
-	margin-left: 0;
 }
 
 
@@ -129,12 +115,16 @@ body {
 	margin: 5px auto auto;
 	font-family: sans-serif;
 	overflow:hidden;
+	position: absolute;
 }
 
 #products_results{
-	float: left;	
+	float: left;
+	width: 400px;	
 }
 
 #categories_results{
-	float:right;
+	float:right; 
+	width: 250px;
+	
 }

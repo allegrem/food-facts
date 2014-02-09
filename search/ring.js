@@ -26,11 +26,11 @@
 
 	$('#ring').mouseup(function() {
 	 	$('#ring').fadeOut('fast');
-	 	clicked.removeClass('hover');
+	 	clicked[0].classList.remove('hover');
 		})
 		.mouseleave(function() {
 	  	$('#ring').fadeOut('fast');
-	  	clicked.removeClass('hover');
+	  	clicked[0].classList.remove('hover');
 	});
 
 	$(document).on('mousedown', '.clickable',function(e){
@@ -38,7 +38,7 @@
 			   var elt = clicked = $(e.target).closest('.clickable');
 			   var x = elt.offset().left + elt[0].getBBox().width/2;
 			   var y = elt.offset().top + elt[0].getBBox().height/2;
-			   elt.addClass('hover');
+			   elt[0].classList.add("hover");
 			   $("#ring").css('top' , (y-150) +'px');
 			   $("#ring").css('left', (x-150) +'px');  
 			   $("#ring").fadeIn('fast');

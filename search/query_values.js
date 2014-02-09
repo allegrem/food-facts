@@ -76,6 +76,7 @@ function values_from_tag(selectedItem) {
 function addToHeatmap(item){
 	
 	var objects = values_from_tag(item);
+	item.data = objects;
 
 	for (var i= 0;i<objects.length; i++){
 		addproduit(objects[i]);

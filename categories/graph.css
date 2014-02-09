@@ -5,14 +5,13 @@
  
 #graph text {
 	font: 14px sans-serif;
-	pointer-events: none;
 	fill: black;
 	stroke: none;
 }
  
 .link {
     fill: none;
-    stroke: #666;
+    stroke: #ddd;
     stroke-width: 1.5px;
 }
 
@@ -24,6 +23,7 @@
 
 
 .node.hover,
+.node.hover text,
 .node:hover,
 .node:hover text{
 	fill: #f00 !important;

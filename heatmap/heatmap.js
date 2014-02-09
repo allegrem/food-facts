@@ -1,4 +1,4 @@
-var margin = { top: 150, right: 10, bottom: 50, left: 350 },
+var margin = { top: 150, right: 100, bottom: 50, left: 350 },
   cellSize=15;
   col_number=8;
   row_number=0;

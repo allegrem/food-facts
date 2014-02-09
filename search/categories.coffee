@@ -1,5 +1,5 @@
 # some global variables
-w = 800
+w = 500
 h = 500
 MAX_CHILDREN = 10
 currentIndex = 0

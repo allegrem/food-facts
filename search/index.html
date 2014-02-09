@@ -16,11 +16,16 @@
 
 <div id="left">
 	<div id="search">
+	
+		<p id="wait">Chargement des données en cours...</p>
 
 		<input type="text" id="searchbox" class="search" autocomplete="off" value=""
 			placeholder="Rechercher une catégorie, ou un produit" />
-		
-		<p id="wait">Chargement des données en cours...</p>
+			
+		<div id="selection_frame">
+			<div id="selection"> 
+			</div>
+		</div>
 		   
 		<div id="results">
 			<div id="products_results" class="column"> 
@@ -39,15 +44,17 @@
 
 	</div>
 
-	<div id="graph" >	
-	</div>
-	
 	<div id="heatmap">
 		<div id="tooltip" class="hidden">
        	 <p><span id="value"></p>
 		</div>
-		<div id="chart" style='overflow:auto; width:800px; height:750px;'></div>
+		<div id="chart" style='overflow:auto; width:750px; height:580px;'></div>
 	</div>
+	
+	<div id="graph" >	
+	</div>
+	
+	
 </div>
 
 <div id="ring" >
@@ -59,11 +66,6 @@
 	</ul>
 </div>
 
-<div id="selection_frame">
-	Votre selection
-	<div id="selection"> 
-	</div>
-</div>
 
 <script src="selection.js"></script>
 <script src="search.js"></script>
