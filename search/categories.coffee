@@ -53,8 +53,6 @@ node = svgContainer.selectAll '.node'
 
 # when the user clicks on a node (circle only)
 window.nodeClick = (node) ->
-  console.log node
-
   # empty the graph
   links = []
   nodes = [node]
