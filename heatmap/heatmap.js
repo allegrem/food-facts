@@ -23,32 +23,14 @@ var margin = { top: 150, right: 100, bottom: 50, left: 350 },
 var values = [];
 var hcrow = [];
 var hccol = [1,2,3,4,5,6,7,8];
-var rowLabel = [];
 var colLabel = colLabel_data;
-/*
-for (var j = 0; j < 8; j++) {
-  values[j] = {row: 1, col: j+1, value: 9-2*j};
-  values[j+8] = {row: 2, col: j+1, value: j};
-  values[j+16] = {row: 3, col: j+1, value: 5-2*j};
-  hccol[j] = hccol_data[j];
-  colLabel[j] = colLabel_data[j];
-}
-hcrow[0] = hcrow_data[0];
-hcrow[1] = hcrow_data[1];
-hcrow[2] = hcrow_data[2];
-rowLabel[0] = rowLabel_data[0];
-rowLabel[1] = rowLabel_data[1];
-rowLabel[2] = rowLabel_data[2];
-row_number+=3; */
-height = cellSize*row_number; 
-//render(values);
 
+height = cellSize*row_number; 
 
 function addproduit(produit) {
    
   var lon = hcrow.length;
   hcrow[lon] = produit;
-  rowLabel[lon] = produit.product_name;
   values[8*lon] = {row: lon+1, col: 1, value: +produit.energy_norm, raw: +produit.energy_100g, product: produit};
   values[8*lon+1] = {row: lon+1, col: 2, value: +produit.proteins_norm, raw: +produit.proteins_100g, product: produit};
   values[8*lon+2] = {row: lon+1, col: 3, value: +produit.carbohydrates_norm, raw: +produit.carbohydrates_100g, product: produit};
@@ -317,21 +299,20 @@ function initChart(){
          }
       })
       ;
-/* } */
 
 function update(data){
 
-	d3.select("#chart svg").attr("height", height + margin.top + margin.bottom);
+ d3.select("#chart svg").attr("height", height + margin.top + margin.bottom);
 	
 	
 
- svg.selectAll(".rowLabel")
- 		.data(rowLabel)
+ rowLabels.selectAll(".rowLabel")
+ 	.data(hcrow)
       .enter()
       .append("text")
-      .text(function (d) { return d; })
+      .text(function (d) { return d.product_name; })
       .attr("x", 0)
-      .attr("y", function (d, i) { return rowLabel.indexOf(d) * cellSize; })
+      .attr("y", function (d, i) { return hcrow.indexOf(d) * cellSize; })
       .style("text-anchor", "end")
       .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
       .attr("class", function (d,i) { return "rowLabel mono r"+i;} ) 
@@ -361,7 +342,7 @@ function update(data){
                  .style("left", (d3.event.pageX+10) + "px")
                  .style("top", (d3.event.pageY-10) + "px")
                  .select("#value")
-                 .text("lables:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\nvaleur:"+d.raw+"\nrow-col-idx:"+d.col+","+d.row+"\ncell-xy "+this.x.baseVal.value+", "+this.y.baseVal.value);  
+                 .text("lables:"+hcrow[d.row-1].product_name+","+colLabel[d.col-1]+"\nvaleur:"+d.raw+"\nrow-col-idx:"+d.col+","+d.row+"\ncell-xy "+this.x.baseVal.value+", "+this.y.baseVal.value);  
                //Show the tooltip
                d3.select("#tooltip").classed("hidden", false);
         })
@@ -383,7 +364,6 @@ function removeFromChart(produit){
 
 	if (index > -1) {
  	   hcrow.splice(index, 1);
- 	   rowLabel.splice(index, 1);
  	   values.splice(8*index,8);
  	   row_number--;
   	   height = cellSize*row_number;
