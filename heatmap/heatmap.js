@@ -325,7 +325,7 @@ function update(data){
 	
 	
 
- svg.selectAll(".rowLabelg")
+ svg.selectAll(".rowLabel")
  		.data(rowLabel)
       .enter()
       .append("text")
@@ -340,7 +340,7 @@ function update(data){
       .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);})
       ;
       
- svg.selectAll(".cellg")
+ d3.select(".g3").selectAll(".cell")
         .data(data,function(d){return d.row+":"+d.col;})
         .enter()
         .append("rect")
